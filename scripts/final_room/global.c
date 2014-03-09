@@ -1,15 +1,15 @@
-const int NUM_TILES = 9;
-const int DIM = 3;
-const int OFF = 0;
-const int ON = 1;
+const int NUM_PIXELS = 25;
+const int DIM = 5;
+const float SPACING = 2.5;
+const float START_X = 15.0;
+const float START_Y = 15.0;
 
-const string TILES = "TileArray";
-const string TILE_TAG = "PressurePlate";
+const string PIXELS = "pixel_array";
+const string PIXEL_TAG = "pixel";
+const string PIXEL_BLUEPRINT = "solwhite001";
 const string ROW = "row";
 const string COLUMN = "column";
-const string STATE = "state";
-const string LIGHT = "solwhite001";
-const string LIGHT_TAG = "Light";
+const string MIRROR_TAG = "shadow_mirror";
 
 object pc = GetFirstPC();
 
