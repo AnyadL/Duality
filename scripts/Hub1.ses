@@ -4,7 +4,7 @@
   <Version>2.7</Version>
   <Translator>Neverwinter Nights</Translator>
   <OptionalLibraries/>
-  <GameModule>C:\GOG Games\Neverwinter Nights Diamond Edition\modules\Hub1.mod</GameModule>
+  <GameModule>C:\GOG Games\Neverwinter Nights Diamond Edition\modules\DualityHub1.mod</GameModule>
   <Dialogues/>
   <StartStoryPoint>
     <Name>Start</Name>
@@ -20,6 +20,15 @@
       </Note>
     </Children>
     <Successors>
+      <StoryPoint>
+        <Name>Shadow Intro</Name>
+        <Visible>true</Visible>
+        <Enabled>true</Enabled>
+        <Labels/>
+        <Children/>
+        <Successors/>
+        <FanIn>1</FanIn>
+      </StoryPoint>
       <StoryPoint>
         <Name>Mirror Clicking</Name>
         <Visible>true</Visible>
@@ -64,7 +73,7 @@
                               <Type>storyPoint</Type>
                             </Types>
                             <Binding flavour="storyPoint">
-                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint"/>
+                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]"/>
                             </Binding>
                           </KnowIt>
                         </Parameters>
@@ -138,7 +147,7 @@
                       <Type>question</Type>
                     </Types>
                     <Binding flavour="reference">
-                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
+                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt/Children/KnowIt"/>
                     </Binding>
                   </KnowIt>
                 </Condition>
@@ -204,7 +213,7 @@
                               <Type>storyPoint</Type>
                             </Types>
                             <Binding flavour="storyPoint">
-                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint"/>
+                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]"/>
                             </Binding>
                           </KnowIt>
                         </Parameters>
@@ -278,7 +287,7 @@
                       <Type>question</Type>
                     </Types>
                     <Binding flavour="reference">
-                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt[2]/Children/KnowIt"/>
+                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt[2]/Children/KnowIt"/>
                     </Binding>
                   </KnowIt>
                 </Condition>
@@ -311,16 +320,7 @@
         <FanIn>1</FanIn>
       </StoryPoint>
       <StoryPoint>
-        <Name>Shadow Intro</Name>
-        <Visible>true</Visible>
-        <Enabled>true</Enabled>
-        <Labels/>
-        <Children/>
-        <Successors/>
-        <FanIn>1</FanIn>
-      </StoryPoint>
-      <StoryPoint>
-        <Name>Camera  Locking</Name>
+        <Name>Set XP</Name>
         <Visible>true</Visible>
         <Enabled>true</Enabled>
         <Labels/>
@@ -401,51 +401,6 @@
                   </ScriptIt>
                 </Binding>
               </KnowIt>
-              <KnowIt>
-                <Name>Location</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <Types>
-                  <Type>location</Type>
-                </Types>
-                <Binding flavour="function">
-                  <ScriptIt>
-                    <Name>the location of &lt;Object&gt;</Name>
-                    <Visible>false</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children/>
-                    <CodeBlocks>
-                      <CodeBlockReference library="DefaultNWNLibrary">
-                        <Name>the location of &lt;Object&gt;</Name>
-                        <Visible>true</Visible>
-                        <Enabled>true</Enabled>
-                        <Labels/>
-                        <TargetId>446</TargetId>
-                        <Parameters>
-                          <KnowIt>
-                            <Name>Object</Name>
-                            <Visible>true</Visible>
-                            <Enabled>true</Enabled>
-                            <Labels/>
-                            <Types>
-                              <Type>creature</Type>
-                              <Type>door</Type>
-                              <Type>placeable</Type>
-                              <Type>sound</Type>
-                              <Type>waypoint</Type>
-                              <Type>trigger</Type>
-                              <Type>item</Type>
-                            </Types>
-                            <Binding flavour="resource">cameralockingtri.UTT</Binding>
-                          </KnowIt>
-                        </Parameters>
-                      </CodeBlockReference>
-                    </CodeBlocks>
-                  </ScriptIt>
-                </Binding>
-              </KnowIt>
               <AskIt>
                 <Name>&lt;Question&gt;</Name>
                 <Visible>true</Visible>
@@ -458,63 +413,6 @@
                     <Enabled>true</Enabled>
                     <Labels/>
                     <Children>
-                      <ScriptIt>
-                        <Name>&lt;Mover&gt;&lt;walk&gt;s to &lt;Location&gt;</Name>
-                        <Visible>true</Visible>
-                        <Enabled>true</Enabled>
-                        <Labels>
-                          <Label>TODO</Label>
-                        </Labels>
-                        <Children/>
-                        <CodeBlocks>
-                          <CodeBlockReference library="DefaultNWNLibrary">
-                            <Name>&lt;Mover&gt;&lt;walk&gt;s to &lt;Location&gt;</Name>
-                            <Visible>true</Visible>
-                            <Enabled>true</Enabled>
-                            <Labels/>
-                            <TargetId>260</TargetId>
-                            <Parameters>
-                              <KnowIt>
-                                <Name>Mover</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>creature</Type>
-                                </Types>
-                                <Binding flavour="reference">
-                                  <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[3]/Children/CauseIt/Children/KnowIt[2]"/>
-                                </Binding>
-                              </KnowIt>
-                              <KnowIt>
-                                <Name>walk</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>walk_speed</Type>
-                                </Types>
-                                <Binding flavour="constant">
-                                  <Type>walk_speed</Type>
-                                  <Value>FALSE</Value>
-                                </Binding>
-                              </KnowIt>
-                              <KnowIt>
-                                <Name>Location</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>location</Type>
-                                </Types>
-                                <Binding flavour="reference">
-                                  <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[3]/Children/CauseIt/Children/KnowIt[3]"/>
-                                </Binding>
-                              </KnowIt>
-                            </Parameters>
-                          </CodeBlockReference>
-                        </CodeBlocks>
-                      </ScriptIt>
                       <ScriptIt>
                         <Name>Set &lt;Recipient&gt;&apos;s XP to &lt;XP Amount&gt;</Name>
                         <Visible>true</Visible>
