@@ -17,6 +17,10 @@ void main()
     /* If the using object is the player, change the lighting */
     if(oUsingObject == oPlayer)
     {
+        /* Activate Cutscene mode and clear all player actions */
+        SetCutsceneMode(oPlayer);
+        AssignCommand(oPlayer, ClearAllActions());
+		
         /* Fade to black, darken the lighting */
         FadeToBlack(oPlayer, FADE_SPEED_FAST);
         DelayCommand(TIME_SEPARATION * 1, DarkenArea());
@@ -26,6 +30,9 @@ void main()
 
         /* Fade from black */
         DelayCommand(TIME_SEPARATION * 3, FadeFromBlack(oPlayer, FADE_SPEED_FASTEST));
+
+        /* Return control to the player */
+        DelayCommand(TIME_SEPARATION * 3, SetCutsceneMode(oPlayer, FALSE));
     }
     else
     {
