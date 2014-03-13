@@ -27,7 +27,7 @@
         <Labels/>
         <Children>
           <CauseIt>
-            <Name>When &lt;subject&gt; is entered by &lt;Entering Creature&gt;</Name>
+            <Name>When &lt;subject&gt; is entered by &lt;entering creature&gt;</Name>
             <Visible>true</Visible>
             <Enabled>true</Enabled>
             <Labels/>
@@ -266,11 +266,11 @@
             </Children>
             <CodeBlocks>
               <CodeBlockReference library="DefaultNWNLibrary">
-                <Name>When &lt;subject&gt; is entered by &lt;Entering Creature&gt;</Name>
+                <Name>When &lt;subject&gt; is entered by &lt;entering creature&gt;</Name>
                 <Visible>true</Visible>
                 <Enabled>true</Enabled>
                 <Labels/>
-                <TargetId>139</TargetId>
+                <TargetId>116</TargetId>
                 <Parameters>
                   <KnowIt>
                     <Name>subject</Name>
@@ -278,9 +278,9 @@
                     <Enabled>true</Enabled>
                     <Labels/>
                     <Types>
-                      <Type>area</Type>
+                      <Type>trigger</Type>
                     </Types>
-                    <Binding flavour="resource">hub.ARE</Binding>
+                    <Binding flavour="resource">cameralocking001.UTT</Binding>
                   </KnowIt>
                 </Parameters>
               </CodeBlockReference>
