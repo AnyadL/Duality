@@ -21,6 +21,296 @@
     </Children>
     <Successors>
       <StoryPoint>
+        <Name>Mirror Clicking</Name>
+        <Visible>true</Visible>
+        <Enabled>true</Enabled>
+        <Labels/>
+        <Children>
+          <CauseIt>
+            <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
+            <Visible>true</Visible>
+            <Enabled>true</Enabled>
+            <Labels/>
+            <Children>
+              <KnowIt>
+                <Name>Is Active</Name>
+                <Visible>true</Visible>
+                <Enabled>true</Enabled>
+                <Labels/>
+                <Types>
+                  <Type>question</Type>
+                </Types>
+                <Binding flavour="function">
+                  <ScriptIt>
+                    <Name>if &lt;Story Point&gt; is active</Name>
+                    <Visible>false</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Children/>
+                    <CodeBlocks>
+                      <CodeBlockReference library="DefaultNWNLibrary">
+                        <Name>if &lt;Story Point&gt; is active</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels/>
+                        <TargetId>455</TargetId>
+                        <Parameters>
+                          <KnowIt>
+                            <Name>Story Point</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <Types>
+                              <Type>storyPoint</Type>
+                            </Types>
+                            <Binding flavour="storyPoint">
+                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint"/>
+                            </Binding>
+                          </KnowIt>
+                        </Parameters>
+                      </CodeBlockReference>
+                    </CodeBlocks>
+                  </ScriptIt>
+                </Binding>
+              </KnowIt>
+              <AskIt>
+                <Name>&lt;Question&gt;</Name>
+                <Visible>true</Visible>
+                <Enabled>true</Enabled>
+                <Labels/>
+                <Children>
+                  <StoryComponentContainer>
+                    <Name>Yes:</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Children>
+                      <ScriptIt>
+                        <Name>Start new module with filename &lt;Module Name&gt;</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels>
+                          <Label>NOW</Label>
+                        </Labels>
+                        <Children/>
+                        <CodeBlocks>
+                          <CodeBlockReference library="DefaultNWNLibrary">
+                            <Name>Start new module with filename &lt;Module Name&gt;</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <TargetId>380</TargetId>
+                            <Parameters>
+                              <KnowIt>
+                                <Name>Module Name</Name>
+                                <Visible>true</Visible>
+                                <Enabled>true</Enabled>
+                                <Labels/>
+                                <Types>
+                                  <Type>string</Type>
+                                </Types>
+                                <Binding flavour="constant">
+                                  <Type>string</Type>
+                                  <Value>DualityMusicRoom</Value>
+                                </Binding>
+                              </KnowIt>
+                            </Parameters>
+                          </CodeBlockReference>
+                        </CodeBlocks>
+                      </ScriptIt>
+                    </Children>
+                  </StoryComponentContainer>
+                  <StoryComponentContainer>
+                    <Name>No:</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Children/>
+                  </StoryComponentContainer>
+                </Children>
+                <Condition>
+                  <KnowIt>
+                    <Name>Question</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Types>
+                      <Type>question</Type>
+                    </Types>
+                    <Binding flavour="reference">
+                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
+                    </Binding>
+                  </KnowIt>
+                </Condition>
+              </AskIt>
+            </Children>
+            <CodeBlocks>
+              <CodeBlockReference library="DefaultNWNLibrary">
+                <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
+                <Visible>true</Visible>
+                <Enabled>true</Enabled>
+                <Labels/>
+                <TargetId>113</TargetId>
+                <Parameters>
+                  <KnowIt>
+                    <Name>subject</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Types>
+                      <Type>placeable</Type>
+                    </Types>
+                    <Binding flavour="resource">bookcase020.UTP</Binding>
+                  </KnowIt>
+                </Parameters>
+              </CodeBlockReference>
+            </CodeBlocks>
+          </CauseIt>
+          <CauseIt>
+            <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
+            <Visible>true</Visible>
+            <Enabled>true</Enabled>
+            <Labels/>
+            <Children>
+              <KnowIt>
+                <Name>Is Active</Name>
+                <Visible>true</Visible>
+                <Enabled>true</Enabled>
+                <Labels/>
+                <Types>
+                  <Type>question</Type>
+                </Types>
+                <Binding flavour="function">
+                  <ScriptIt>
+                    <Name>if &lt;Story Point&gt; is active</Name>
+                    <Visible>false</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Children/>
+                    <CodeBlocks>
+                      <CodeBlockReference library="DefaultNWNLibrary">
+                        <Name>if &lt;Story Point&gt; is active</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels/>
+                        <TargetId>455</TargetId>
+                        <Parameters>
+                          <KnowIt>
+                            <Name>Story Point</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <Types>
+                              <Type>storyPoint</Type>
+                            </Types>
+                            <Binding flavour="storyPoint">
+                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint"/>
+                            </Binding>
+                          </KnowIt>
+                        </Parameters>
+                      </CodeBlockReference>
+                    </CodeBlocks>
+                  </ScriptIt>
+                </Binding>
+              </KnowIt>
+              <AskIt>
+                <Name>&lt;Question&gt;</Name>
+                <Visible>true</Visible>
+                <Enabled>true</Enabled>
+                <Labels/>
+                <Children>
+                  <StoryComponentContainer>
+                    <Name>Yes:</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Children>
+                      <ScriptIt>
+                        <Name>Start new module with filename &lt;Module Name&gt;</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels>
+                          <Label>NOW</Label>
+                        </Labels>
+                        <Children/>
+                        <CodeBlocks>
+                          <CodeBlockReference library="DefaultNWNLibrary">
+                            <Name>Start new module with filename &lt;Module Name&gt;</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <TargetId>380</TargetId>
+                            <Parameters>
+                              <KnowIt>
+                                <Name>Module Name</Name>
+                                <Visible>true</Visible>
+                                <Enabled>true</Enabled>
+                                <Labels/>
+                                <Types>
+                                  <Type>string</Type>
+                                </Types>
+                                <Binding flavour="constant">
+                                  <Type>string</Type>
+                                  <Value>DualityMirrorRoom</Value>
+                                </Binding>
+                              </KnowIt>
+                            </Parameters>
+                          </CodeBlockReference>
+                        </CodeBlocks>
+                      </ScriptIt>
+                    </Children>
+                  </StoryComponentContainer>
+                  <StoryComponentContainer>
+                    <Name>No:</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Children/>
+                  </StoryComponentContainer>
+                </Children>
+                <Condition>
+                  <KnowIt>
+                    <Name>Question</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Types>
+                      <Type>question</Type>
+                    </Types>
+                    <Binding flavour="reference">
+                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt[2]/Children/KnowIt"/>
+                    </Binding>
+                  </KnowIt>
+                </Condition>
+              </AskIt>
+            </Children>
+            <CodeBlocks>
+              <CodeBlockReference library="DefaultNWNLibrary">
+                <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
+                <Visible>true</Visible>
+                <Enabled>true</Enabled>
+                <Labels/>
+                <TargetId>113</TargetId>
+                <Parameters>
+                  <KnowIt>
+                    <Name>subject</Name>
+                    <Visible>true</Visible>
+                    <Enabled>true</Enabled>
+                    <Labels/>
+                    <Types>
+                      <Type>placeable</Type>
+                    </Types>
+                    <Binding flavour="resource">bookcase021.UTP</Binding>
+                  </KnowIt>
+                </Parameters>
+              </CodeBlockReference>
+            </CodeBlocks>
+          </CauseIt>
+        </Children>
+        <Successors/>
+        <FanIn>1</FanIn>
+      </StoryPoint>
+      <StoryPoint>
         <Name>Mia Comment</Name>
         <Visible>true</Visible>
         <Enabled>true</Enabled>
@@ -64,7 +354,7 @@
                               <Type>storyPoint</Type>
                             </Types>
                             <Binding flavour="storyPoint">
-                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint"/>
+                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]"/>
                             </Binding>
                           </KnowIt>
                         </Parameters>
@@ -143,7 +433,7 @@
                                   <Type>trigger</Type>
                                 </Types>
                                 <Binding flavour="reference">
-                                  <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt[2]"/>
+                                  <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt/Children/KnowIt[2]"/>
                                 </Binding>
                               </KnowIt>
                             </Parameters>
@@ -178,7 +468,7 @@
                                   <Type>item</Type>
                                   <Type>trigger</Type>
                                 </Types>
-                                <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                               </KnowIt>
                               <KnowIt>
                                 <Name>Volume</Name>
@@ -271,7 +561,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -324,7 +614,7 @@
                       <Type>question</Type>
                     </Types>
                     <Binding flavour="reference">
-                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
+                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt/Children/KnowIt"/>
                     </Binding>
                   </KnowIt>
                 </Condition>
@@ -398,7 +688,7 @@
                                   <Type>storyPoint</Type>
                                 </Types>
                                 <Binding flavour="storyPoint">
-                                  <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                  <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint"/>
                                 </Binding>
                               </KnowIt>
                             </Parameters>
@@ -549,7 +839,7 @@
                                       <Type>location</Type>
                                     </Types>
                                     <Binding flavour="reference">
-                                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt[2]"/>
+                                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/Children/KnowIt[2]"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -581,7 +871,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -608,7 +898,7 @@
                           <Type>question</Type>
                         </Types>
                         <Binding flavour="reference">
-                          <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
+                          <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
                         </Binding>
                       </KnowIt>
                     </Condition>
@@ -630,7 +920,7 @@
                         <Types>
                           <Type>storyPoint</Type>
                         </Types>
-                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                       </KnowIt>
                       <KnowIt>
                         <Name>subject</Name>
@@ -692,7 +982,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -768,7 +1058,7 @@
                                           <Type>door</Type>
                                           <Type>placeable</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                       <KnowIt>
                                         <Name>Conversation</Name>
@@ -791,7 +1081,7 @@
                                           <Type>placeable</Type>
                                         </Types>
                                         <Binding flavour="reference">
-                                          <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt[2]"/>
+                                          <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt[2]"/>
                                         </Binding>
                                       </KnowIt>
                                     </Parameters>
@@ -818,7 +1108,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -841,7 +1131,7 @@
                               <Type>storyPoint</Type>
                             </Types>
                             <Binding flavour="storyPoint">
-                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                             </Binding>
                           </KnowIt>
                           <KnowIt>
@@ -852,7 +1142,7 @@
                             <Types>
                               <Type>module</Type>
                             </Types>
-                            <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt[2]/Binding"/>
+                            <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt[2]/Binding"/>
                           </KnowIt>
                         </Parameters>
                       </CodeBlockReference>
@@ -896,7 +1186,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -967,7 +1257,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[2]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[2]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -1033,7 +1323,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -1134,7 +1424,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[3]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[3]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -1200,7 +1490,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -1245,7 +1535,7 @@
                                         <Types>
                                           <Type>sound</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[3]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[3]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                     </Parameters>
                                   </CodeBlockReference>
@@ -1301,7 +1591,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[4]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[4]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -1367,7 +1657,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -1412,7 +1702,7 @@
                                         <Types>
                                           <Type>sound</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[4]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[4]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                     </Parameters>
                                   </CodeBlockReference>
@@ -1468,7 +1758,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[5]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[5]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -1534,7 +1824,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -1579,7 +1869,7 @@
                                         <Types>
                                           <Type>sound</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[5]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[5]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                     </Parameters>
                                   </CodeBlockReference>
@@ -1635,7 +1925,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[6]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[6]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -1701,7 +1991,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -1746,7 +2036,7 @@
                                         <Types>
                                           <Type>sound</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[6]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[6]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                     </Parameters>
                                   </CodeBlockReference>
@@ -1802,7 +2092,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[7]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[7]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -1868,7 +2158,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -1913,7 +2203,7 @@
                                         <Types>
                                           <Type>sound</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[7]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[7]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                     </Parameters>
                                   </CodeBlockReference>
@@ -1999,7 +2289,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[8]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[8]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -2065,7 +2355,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -2110,7 +2400,7 @@
                                         <Types>
                                           <Type>storyPoint</Type>
                                         </Types>
-                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[9]/Children/KnowIt/Binding/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                        <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[9]/Children/KnowIt/Binding/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                       </KnowIt>
                                     </Parameters>
                                   </CodeBlockReference>
@@ -2136,7 +2426,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[9]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[9]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -2158,7 +2448,7 @@
                             <Types>
                               <Type>dialogue</Type>
                             </Types>
-                            <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt[2]/Binding"/>
+                            <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt[2]/Binding"/>
                           </KnowIt>
                         </Parameters>
                       </CodeBlockReference>
@@ -2202,7 +2492,7 @@
                                       <Type>storyPoint</Type>
                                     </Types>
                                     <Binding flavour="storyPoint">
-                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                      <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint"/>
                                     </Binding>
                                   </KnowIt>
                                 </Parameters>
@@ -2333,7 +2623,7 @@
                               <Type>question</Type>
                             </Types>
                             <Binding flavour="reference">
-                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[10]/Children/KnowIt"/>
+                              <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt[10]/Children/KnowIt"/>
                             </Binding>
                           </KnowIt>
                         </Condition>
@@ -2407,7 +2697,7 @@
                                           <Type>storyPoint</Type>
                                         </Types>
                                         <Binding flavour="storyPoint">
-                                          <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                          <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
                                         </Binding>
                                       </KnowIt>
                                     </Parameters>
@@ -2456,7 +2746,7 @@
                                               <Type>item</Type>
                                               <Type>trigger</Type>
                                             </Types>
-                                            <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                                            <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                                           </KnowIt>
                                         </Parameters>
                                       </CodeBlockReference>
@@ -2482,7 +2772,7 @@
                                   <Type>question</Type>
                                 </Types>
                                 <Binding flavour="reference">
-                                  <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
+                                  <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/Children/KnowIt"/>
                                 </Binding>
                               </KnowIt>
                             </Condition>
@@ -2505,7 +2795,7 @@
                                   <Type>storyPoint</Type>
                                 </Types>
                                 <Binding flavour="storyPoint">
-                                  <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
+                                  <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Successors/StoryPoint/Successors/StoryPoint"/>
                                 </Binding>
                               </KnowIt>
                               <KnowIt>
@@ -2516,7 +2806,7 @@
                                 <Types>
                                   <Type>module</Type>
                                 </Types>
-                                <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Successors/StoryPoint/Children/CauseIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt[2]/Binding"/>
+                                <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Successors/StoryPoint/Children/CauseIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt[2]/Binding"/>
                               </KnowIt>
                             </Parameters>
                           </CodeBlockReference>
@@ -2533,296 +2823,6 @@
             <FanIn>1</FanIn>
           </StoryPoint>
         </Successors>
-        <FanIn>1</FanIn>
-      </StoryPoint>
-      <StoryPoint>
-        <Name>Mirror Clicking</Name>
-        <Visible>true</Visible>
-        <Enabled>true</Enabled>
-        <Labels/>
-        <Children>
-          <CauseIt>
-            <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
-            <Visible>true</Visible>
-            <Enabled>true</Enabled>
-            <Labels/>
-            <Children>
-              <KnowIt>
-                <Name>Is Active</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <Types>
-                  <Type>question</Type>
-                </Types>
-                <Binding flavour="function">
-                  <ScriptIt>
-                    <Name>if &lt;Story Point&gt; is active</Name>
-                    <Visible>false</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children/>
-                    <CodeBlocks>
-                      <CodeBlockReference library="DefaultNWNLibrary">
-                        <Name>if &lt;Story Point&gt; is active</Name>
-                        <Visible>true</Visible>
-                        <Enabled>true</Enabled>
-                        <Labels/>
-                        <TargetId>455</TargetId>
-                        <Parameters>
-                          <KnowIt>
-                            <Name>Story Point</Name>
-                            <Visible>true</Visible>
-                            <Enabled>true</Enabled>
-                            <Labels/>
-                            <Types>
-                              <Type>storyPoint</Type>
-                            </Types>
-                            <Binding flavour="storyPoint">
-                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]"/>
-                            </Binding>
-                          </KnowIt>
-                        </Parameters>
-                      </CodeBlockReference>
-                    </CodeBlocks>
-                  </ScriptIt>
-                </Binding>
-              </KnowIt>
-              <AskIt>
-                <Name>&lt;Question&gt;</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <Children>
-                  <StoryComponentContainer>
-                    <Name>Yes:</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children>
-                      <ScriptIt>
-                        <Name>Start new module with filename &lt;Module Name&gt;</Name>
-                        <Visible>true</Visible>
-                        <Enabled>true</Enabled>
-                        <Labels>
-                          <Label>NOW</Label>
-                        </Labels>
-                        <Children/>
-                        <CodeBlocks>
-                          <CodeBlockReference library="DefaultNWNLibrary">
-                            <Name>Start new module with filename &lt;Module Name&gt;</Name>
-                            <Visible>true</Visible>
-                            <Enabled>true</Enabled>
-                            <Labels/>
-                            <TargetId>380</TargetId>
-                            <Parameters>
-                              <KnowIt>
-                                <Name>Module Name</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>string</Type>
-                                </Types>
-                                <Binding flavour="constant">
-                                  <Type>string</Type>
-                                  <Value>DualityMusicRoom</Value>
-                                </Binding>
-                              </KnowIt>
-                            </Parameters>
-                          </CodeBlockReference>
-                        </CodeBlocks>
-                      </ScriptIt>
-                    </Children>
-                  </StoryComponentContainer>
-                  <StoryComponentContainer>
-                    <Name>No:</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children/>
-                  </StoryComponentContainer>
-                </Children>
-                <Condition>
-                  <KnowIt>
-                    <Name>Question</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Types>
-                      <Type>question</Type>
-                    </Types>
-                    <Binding flavour="reference">
-                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt/Children/KnowIt"/>
-                    </Binding>
-                  </KnowIt>
-                </Condition>
-              </AskIt>
-            </Children>
-            <CodeBlocks>
-              <CodeBlockReference library="DefaultNWNLibrary">
-                <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <TargetId>113</TargetId>
-                <Parameters>
-                  <KnowIt>
-                    <Name>subject</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Types>
-                      <Type>placeable</Type>
-                    </Types>
-                    <Binding flavour="resource">bookcase020.UTP</Binding>
-                  </KnowIt>
-                </Parameters>
-              </CodeBlockReference>
-            </CodeBlocks>
-          </CauseIt>
-          <CauseIt>
-            <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
-            <Visible>true</Visible>
-            <Enabled>true</Enabled>
-            <Labels/>
-            <Children>
-              <KnowIt>
-                <Name>Is Active</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <Types>
-                  <Type>question</Type>
-                </Types>
-                <Binding flavour="function">
-                  <ScriptIt>
-                    <Name>if &lt;Story Point&gt; is active</Name>
-                    <Visible>false</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children/>
-                    <CodeBlocks>
-                      <CodeBlockReference library="DefaultNWNLibrary">
-                        <Name>if &lt;Story Point&gt; is active</Name>
-                        <Visible>true</Visible>
-                        <Enabled>true</Enabled>
-                        <Labels/>
-                        <TargetId>455</TargetId>
-                        <Parameters>
-                          <KnowIt>
-                            <Name>Story Point</Name>
-                            <Visible>true</Visible>
-                            <Enabled>true</Enabled>
-                            <Labels/>
-                            <Types>
-                              <Type>storyPoint</Type>
-                            </Types>
-                            <Binding flavour="storyPoint">
-                              <StoryPoint reference="/Story/StartStoryPoint/Successors/StoryPoint[2]"/>
-                            </Binding>
-                          </KnowIt>
-                        </Parameters>
-                      </CodeBlockReference>
-                    </CodeBlocks>
-                  </ScriptIt>
-                </Binding>
-              </KnowIt>
-              <AskIt>
-                <Name>&lt;Question&gt;</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <Children>
-                  <StoryComponentContainer>
-                    <Name>Yes:</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children>
-                      <ScriptIt>
-                        <Name>Start new module with filename &lt;Module Name&gt;</Name>
-                        <Visible>true</Visible>
-                        <Enabled>true</Enabled>
-                        <Labels>
-                          <Label>NOW</Label>
-                        </Labels>
-                        <Children/>
-                        <CodeBlocks>
-                          <CodeBlockReference library="DefaultNWNLibrary">
-                            <Name>Start new module with filename &lt;Module Name&gt;</Name>
-                            <Visible>true</Visible>
-                            <Enabled>true</Enabled>
-                            <Labels/>
-                            <TargetId>380</TargetId>
-                            <Parameters>
-                              <KnowIt>
-                                <Name>Module Name</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>string</Type>
-                                </Types>
-                                <Binding flavour="constant">
-                                  <Type>string</Type>
-                                  <Value>DualityMirrorRoom</Value>
-                                </Binding>
-                              </KnowIt>
-                            </Parameters>
-                          </CodeBlockReference>
-                        </CodeBlocks>
-                      </ScriptIt>
-                    </Children>
-                  </StoryComponentContainer>
-                  <StoryComponentContainer>
-                    <Name>No:</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Children/>
-                  </StoryComponentContainer>
-                </Children>
-                <Condition>
-                  <KnowIt>
-                    <Name>Question</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Types>
-                      <Type>question</Type>
-                    </Types>
-                    <Binding flavour="reference">
-                      <KnowIt reference="/Story/StartStoryPoint/Successors/StoryPoint[2]/Children/CauseIt[2]/Children/KnowIt"/>
-                    </Binding>
-                  </KnowIt>
-                </Condition>
-              </AskIt>
-            </Children>
-            <CodeBlocks>
-              <CodeBlockReference library="DefaultNWNLibrary">
-                <Name>When &lt;subject&gt; is used by &lt;last user&gt;</Name>
-                <Visible>true</Visible>
-                <Enabled>true</Enabled>
-                <Labels/>
-                <TargetId>113</TargetId>
-                <Parameters>
-                  <KnowIt>
-                    <Name>subject</Name>
-                    <Visible>true</Visible>
-                    <Enabled>true</Enabled>
-                    <Labels/>
-                    <Types>
-                      <Type>placeable</Type>
-                    </Types>
-                    <Binding flavour="resource">bookcase021.UTP</Binding>
-                  </KnowIt>
-                </Parameters>
-              </CodeBlockReference>
-            </CodeBlocks>
-          </CauseIt>
-        </Children>
-        <Successors/>
         <FanIn>1</FanIn>
       </StoryPoint>
       <StoryPoint>
