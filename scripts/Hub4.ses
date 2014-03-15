@@ -531,7 +531,7 @@
                                 </Types>
                                 <Binding flavour="constant">
                                   <Type>string</Type>
-                                  <Value>*movie name here*</Value>
+                                  <Value>FIN_ED</Value>
                                 </Binding>
                               </KnowIt>
                               <KnowIt>
