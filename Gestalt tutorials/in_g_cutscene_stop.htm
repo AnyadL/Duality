@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>GestaltStopCameraMoves</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>GestaltCamera Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+<td align=left>
+<center><b>GestaltStopCameraMoves</b></center>
+<p align=justify>
+This function can be used to stop every camera movement which is currently queued, including ones which haven't begun yet. This is intended to be used with the new OnCutsceneAbort event handler to stop the camera movements in your cutscene if it is ended prematurely by the player. Here's how you use it -
+<br><br>
+<pre>
+#include "in_g_cameramove"
+void main()
+{
+    GestaltStopCameraMoves (GetLastPCToCancelCutscene());
+}
+</pre>
+<p align=justify>
+Yes, it really is that easy. All you need to do is specify which player you want to cancel all of the camera movements for, and the function will go away and do it automatically. If you want to cancel the camera movements of several players simultaneously, just add a 1 (for every member of the player's party) or a 2 (for every player on the server). For example -
+<br><br>
+<pre>
+#include "in_g_cameramove"
+void main()
+{
+    object oPC = GetLastPCToCancelCutscene();
+    GestaltStopCameraMoves (oPC, 1);
+}
+</pre>
+<p align=justify>
+If you put this code in the cutscene cancelled event handler for your module, it will automatically stop all camera movements for everybody in the same party as the player who hit the "skip" button to stop your cutscene.
+<br><br><br>
+Note that this function includes two more options (bAuto and iCamID) which you should <b>never</b> touch! These are only for use by other functions in the include file, which use GestaltStopCameraMoves to make sure that you never end up with two camera movements overlapping. By setting bAuto to false and inputting the id of the camera movement before the one which calls the function, GestaltStopCameraMoves can automatically cancel any previous camera movements when the new one starts up, but leave the new one and any camera movements which are queued to begin after it uneffected.
+</p>
+</td>
+</tr>
+</table>
+
+<br><br><br>
+<center><a href="in_g_cameramove_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>camera scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

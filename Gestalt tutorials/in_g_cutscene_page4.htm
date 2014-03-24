@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Cutscene Scripting For Neverwinter Nights</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<br><br>
+<b><font size=+1>Cutscene Scripting For Neverwinter Nights</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<a name="1"></a>
+<center><b>Aborting Cutscenes</b></center>
+<p align=justify>
+So we've now got our masterpiece working, but what if the player has already seen it and wants to skip it and get on with the game? If there's one thing guaranteed to annoy players, it's long cutscenes that can't be skipped. 15 seconds isn't too bad, but let's script an abort sequence for it anyway, to be safe.
+<br><br>
+The first thing to do is go to the module properties window of the toolset and find the Events pane. Look for the event slot that says OnCutsceneAborted, and create a new script for it called "oncutabort". You can call it anything you want to, but using something descriptive like this makes it easier to remember what the script does.
+<br><br>
+Now we've got our script, what do we put in it? Well, for starters we need to <i>#include "in_g_cutscene"</i>. Next we need to work out which player is trying to interrupt your cutscene, using the new <i>GetLastPCToCancelCutscene()</i> function. This catchily named function does exactly what it says - it tells you the last player who hit the Escape key to abort your cutscene.
+<br><br>
+Now we know who is skipping the cutscene, we need to check which cutscene they're currently viewing. This is where the name we assigned to our cutscene using GestaltStartCutscene comes in. That name has been stored on the player who is watching the cutscene as a LocalString called "cutscene", and we can now retrieve that string to check which cutscene the player is aborting. At the moment the answer is pretty obvious, because we only have one cutscene in your module so far, but once you've added some more you'll need a way of telling them apart.
+<br><br>
+So here's what we have so far -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find who aborted the cutscene, and which scene it was
+    object oPC = GetLastPCToCancelCutscene();
+    string sName = GetLocalString(oPC,"cutscene");
+
+    if (sName == "mycutscene")
+        {
+        // This is where the abort code goes
+        }
+}
+</pre>
+<p align=justify>
+Aborting a cutscene using the Gestalt cutscene scripting system is really simple - all you need to do is fire the GestaltStopCutscene function. This will cancel any remaining Gestalt* functions in your cutscene script, cancel any camera movements that haven't completed yet, and clear away any visual effects (including fade outs) that you've used.
+<br><br>
+If you place a waypoint with the tag "CutsceneNameNPCTag", the NPC with that tag will be beamed to that waypoint automatically if they were referenced in the cutscene that is being stopped. For example, if we wanted to move the NPC in our demo script out of the way at the end of the scene instead of destroying him, we would place a waypoint with the tag "mycutscenemycutscene_actor".
+<br><br>
+If you want to beam the player to a specific waypoint when a cutscene stops (for example, to send the player to the position he would have been at when the cutscene ended if he hadn't aborted it before then) you just add the tag of the waypoint you want to beam them to in the GestaltStopCutscene function, right after the delay and the player whose cutscene is being stopped. For example, <i>GestaltStopCutscene(0.0,oPC,"wp_cutscene_end");</i> will send oPC to a waypoint with the tag wp_cutscene_end when the cutscene ends.
+<br><br>
+So if all we want to do is stop the cutscene dead in its tracks, this is all the code we need -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find who aborted the cutscene, and which scene it was
+    object oPC = GetLastPCToCancelCutscene();
+    string sName = GetLocalString(oPC,"cutscene");
+
+    if (sName == "mycutscene")
+        {
+        GestaltStopCutscene (0.0,oPC);
+        }
+}
+</pre>
+<p align=justify>
+That was easy, wasn't it? Well, our script needs to be <i>slightly</i> more complicated than this, because we chose to destroy our NPC at the end of the scene. If he hasn't been destroyed yet we need to remove him when the cutscene is aborted. Here's how we would do that -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find who aborted the cutscene, and which scene it was
+    object oPC = GetLastPCToCancelCutscene();
+    string sName = GetLocalString(oPC,"cutscene");
+
+    if (sName == "mycutscene")
+        {
+        DeleteLocalString(GetModule(),"cutscene");
+        GestaltStopCutscene (0.0,oPC);
+        GestaltDestroy      (0.0,OBJECT_INVALID,"mycutscene_actor");
+        }
+}
+</pre>
+<p align=justify>
+We've been a bit clever here. Instead of finding the actor we want to destroy using GetObjectByTag, we've set the object to be destroyed as OBJECT_INVALID and given the GestaltDestroy function the tag of the actor instead. When the function is given a tag, it will find the object for you.
+<br><br>
+<b>NOTE</b> that the cutscene name is stored on the module as well as the player(s) taking part in the cutscene. The GestaltStopCutscene function reads the cutscene id from the player, but all of the other functions read it from the module. For this reason we have to delete the cutscene name from the module in our abort script, or the GestaltDestroy command would be counted as part of the "mycutscene" scene and cancelled along with the rest of the cutscene actions when we call GestaltStopCutscene.
+<br><br>
+You only need to worry about this if you want to use some Gestalt functions when you abort the cutscene. If we were just stopping the cutscene there's no need to clear its name from the module, as the cutscene name will be replaced automatically when you start your next cutscene, and it won't be used for anything else until then.
+<br><br>
+Also note that if you cancel the cutscene very quickly the player will end up with their camera stuck again, because we had to delay the StoreCameraFacing() call. This is one reason why (wherever possible) it is always best to store the player's camera position <i>before</i> they enter the area if the cutscene is triggered from an area OnEnter script.
+</p>
+
+<br><br><br>
+<a name="2"></a>
+<center><b>Conclusion</b></center>
+<p align=justify>
+We've only scratched the surface in this tutorial - there are many other Gestalt functions included in the cutscene scripting system, covering everything from sound effects and music to conversations and journal entries, which we haven't used in our simple sample script. But hopefully this tutorial has given you an idea of how cutscenes are triggered, initialized, controlled and aborted.
+<br><br>
+We've had a quick look at how to make characters speak dialogue, play animations, move from one place to another and turn to face in a specific direction, which should get you started, but there are many more options available for you once you've got to grips with the basics. All of the Gestalt functions will be listed in bold in the function list on the right side of the script editor once you have <i>#include</i>d "in_g_cutscene" and saved your script. If you want to learn more about any of them, just select it from this list and the help bar at the bottom of the script editor will give you a brief description of what the function does and what all the variables are for.
+<br><br>
+You can find a more complex example of cutscene scripting in the demo module (<i>in_g_cutscene.mod</i>) that came with this package, and of course you can ask for help at my <a href="http://nwn.bioware.com/guilds_registry/viewguild.html?gid=13847">cutscene scripting guild</a> on the BioBoards, or on <a href="http://nwn.bioware.com/forums/viewforum.html?forum=47">BioWare's NWN Scripting forum</a>. Even if I'm not available to answer your question myself, there are many other people out there using the Gestalt Cutscene Scripting System who will be able to help you with any problems you experience.
+</p>
+<br><br>
+<center>
+&lt; <a href="in_g_cutscene_page1.htm">prev</a> 
+&nbsp; <a href="in_g_cutscene_index.htm">index</a>
+&nbsp; next &gt;
+</center>
+</td>
+</tr>
+</table>
+
+<br><br>
+<br><br>
+<font size=-1>cutscene scripting system and tutorial by John Bye
+<br>feedback, suggestions and questions can be posted at my <a href="http://nwn.bioware.com/guilds_registry/viewguild.html?gid=13847">cutscene scripting guild</a></font>
+
+</center>
+
+</body>
+</html>

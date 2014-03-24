@@ -1,0 +1,120 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraSmooth</b></center>
+<p align=justify>
+This is probably the hardest of the functions to use, but with a little work it produces the best results. What it does is allow you to set the rate at which the camera will be moving at the beginning and end of the camera movement, and then the function will interpolate between these two values to make the camera smoothly accelerate from one rate to the other over the duration of the movement. This also means that you can make two or more camera movements match up without any noticeable joint by setting the initial speed of one movement to be the same as the final speed of the previous one.
+<br><br>
+Here's how it works -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+
+    GestaltStartCutscene(oPC, "smoothcam");
+
+    GestaltCameraSetup  (0.0, oPC, 270.0, 20.0, 20.0);
+
+    // 270.0,20.0,20.0
+
+    GestaltCameraSmooth (0.0,
+                        0.0, -4.0, 0.0,
+                        0.0, 0.0, 8.0,
+                        5.0, 30.0, oPC);
+
+    // 270.0,10.0,40.0
+
+    GestaltCameraSmooth (5.0,
+                        0.0, 0.0, 8.0,
+                        18.0, 0.0, -8.0,
+                        5.0, 30.0, oPC);
+
+    // 315.0,10.0,40.0
+
+    GestaltCameraSmooth (10.0,
+                        18.0, 0.0, -8.0,
+                        0.0, 0.0, 0.0,
+                        5.0, 30.0, oPC);
+
+    // 360.0,10.0,20.0
+
+    GestaltStopCutscene (16.0, oPC);
+}
+</pre>
+<p align=justify>
+Before we can call GestaltCameraSmooth, we first need to tell it where the camera should be at the start of the movement. We do this using the GestaltCameraSetup function. As usual the first number is the delay before setting the camera's starting position. Next we tell it whose camera we're setting the initial position for. The last three numbers set the initial compass direction in which the camera will be facing (in this case 270.0 degrees, which is due south), how far away from the player it will be (20.0m), and how far it will be tilted from the vertical (20.0 degrees).
+<br><br>
+Note that GestaltCameraSetup doesn't change the position of the camera immediately, it just tells the game where to begin the next time you call GestaltCameraSmooth. When GestaltCameraSmooth is called it will read these starting values from the PC, work out all the individual movements it needs the camera to make, and then store the final position of the camera on the PC again at the end.
+<br><br>
+This means that if you want to string together a sequence of camera movements (as in the example script above) you don't need to keep setting the position of the camera each time you call the function. The game will remember where it left the camera and continue from that position automatically the next time you use the GestaltCameraSmooth function, unless you use GestaltCameraSetup again to change the starting position part way through the cutscene.
+<br><br>
+Now to the GestaltCameraSmooth function itself.
+<ol>
+<li><p align=justify><b>Delay</b> - The first number is the delay before the camera movement starts. As with all the other GestaltCamera* functions, this is set up in exactly the same way as a DelayCommand call. As you can see, the first movement starts instantly (delay 0.0), the second begins five seconds later (delay 5.0) and the third one begins five seconds after the second one (delay 10.0).
+</p>
+<br>
+<li><p align=justify><b>Starting speed</b> - The three numbers on the second line set the rate at which you want the camera to be moving at the start of the movement.
+<br><br>The first number is the number of degrees per second that the camera rotates around the player. A positive number will produce an anti-clockwise motion, a negative one is clockwise.
+<br><br>The second number is the number of metres per second that the camera moves towards or away from the player. A positive number takes the camera further out, while a negative one will zoom it in.
+<br><br>The third number is how many degrees per second the camera's tilt changes by. A positive number will bring the camera down towards the ground, a negative number lifts it up towards the vertical.
+</p>
+<br>
+<li><p align=justify><b>Finishing speed</b> - The second set of three numbers controls the final speed of the camera, with everything declared in the same order as for the starting speed - first direction, then distance, and finally vertical tilt.</p>
+<br>
+<li><p align=justify><b>Timing controls</b> - The third set of numbers controls the timing of the movement. The first of these two numbers tells the game how many seconds you want the camera movement to last, and the other tells it how many times per second you want the game to move the camera. The higher this number, the smoother the motion will be. Depending on how far and how fast the camera is moving, setting the number of camera moves per second to between 20.0 and 40.0 should produce a smooth motion without overloading the game.</p>
+<br>
+<li><p align=justify><b>Player selection</b> - The next thing you have to tell the function is which player you want to move the camera of. You can set up an <i>object</i> to contain this information, or you can simply put a function such as GetFirstPC(), GetPCSpeaker() or GetLastPlayerDied() directly in the GestaltCameraMove line of your script.</p>
+<br>
+<li><p align=justify><b>Multiplayer Options</b> - There are two optional integer variables that you can set at the end of the list. These are for multiplayer modules only. The first one tells the function whether to move the camera of only the specified player (0), all the players in their party (1), or all the players on the server (2). This defaults to 0, so if you only want to move the camera of the player you have selected you don't need to worry about this option. The second integer allows you to set whether the camera should start in the same place for every player (1) or to read the starting position separately for each player whose camera is being moved (0). This defaults to 1, so unless you want to move the camera of multiple players simultaneously and have them start off with their cameras facing in different directions, you don't need to worry about this option.</p>
+</ol>
+<br><br>
+<p align=justify>
+So what does the example script above actually do? Well for starters we have selected the first PC in the player list, which (if this is a single player module) will be the only player and put them into cutscene mode using GestaltStartCutscene. We then set the starting position of the camera and trigger a series of GestaltCameraSmooth movements before ending the cutscene 16 seconds later.
+<br><br>
+The first time we call GestaltCameraSmooth it reads in the camera position we've just set and places the camera there. From the second line of numbers (0.0,-4.0,0.0) we can see that the camera starts by zooming in rapidly towards the player (at 4.0 meters per second) while the tilt and compass direction in which the camera is facing remain static. But the third line (0.0,0.0,8.0) is different. Here the camera is still not rotating around the player, but the zooming has ended and the camera is now panning down towards the ground at 8.0 degrees per second. So what happens? Well, the camera starts out zooming in towards the player, but over the 5.0 seconds that this part of the movement lasts the camera's inward motion gradually reduces, while at the same time it starts to tilt down towards the ground. The result should be a perfectly smooth transition between these two motions.
+<br><br>
+But where does this leave the camera? Well, this is easy to work out as the acceleration is linear - just take the average of the starting and ending speeds and multiply that by the duration of the movement. In this case the compass direction remains unchanged, the range starts by moving in at 4.0 meters per second but is stationary by the end of the movement (giving an average of -2.0) and the tilt starts stationary but accelerates to 8.0 degrees per second (giving an average of 4.0). So if the motion lasts five seconds and the camera starts at 270.0,20.0,20.0, it will end up at 270.0,10.0,40.0. To make it easier to keep track of what the function is doing, we have included a comment after each call of the function to remind us where the camera will be at the end of that part of the movement.
+<br><br>
+The second time we call the function it reads this position (which the first call of the function stored on the player) and continues from there. Because we trigger the second movement just as the first one is ending (5.0 seconds after the script started) and set the initial speeds to be exactly the same as the final speeds for the first movement, there shouldn't be a noticeable joint between the two - the camera will transition smoothly from one movement to the other.
+<br><br>
+This time we've made things a little more interesting. The camera starts by moving down towards the ground at 8.0 degrees per second, but finishes with it tilting back up towards the vertical by 8.0 degrees per second (going from 8.0 to -8.0). This means that the camera will switch directions half way through the movement. Although the net result of this is that the camera's tilt is back to where it started by the end of the movement, remember that it will dip below that level before turning around. Meanwhile we've started the camera rotating around the player, accelerating to a rather rapid 18.0 degrees per second. This means that the camera is at 315.0,10.0,40.0 at the end of this second movement.
+<br><br>
+The third movement is nice and simple - the numbers in the third line are all set to 0.0, which means that the camera is slowing down to a halt. By the time this third movement ends the camera will be stationary, and it's fairly easy to work out where it will be.
+<br><br>
+You can see the movement produced by the sample script above if you click on the GestaltCameraSmooth banner to the west of the test area in the "in_g_cutscene_camera" demo module. You can hit escape at any point to abort the cutscene.
+<br><br><br>
+<b>NOTE</b> that when you use GestaltCameraSmooth it calls another function, GestaltCameraSmoothStart. Some debug lines have been included in this subfunction. Simply remove the // from the beginning of the lines that call <i>GestaltDebugOutput</i> and the game will tell you where the camera is at the start and end of each GestaltCameraSmooth movement. This can be handy if you're having trouble working out the positions for yourself, and also allows you to check that the camera is going where you expect it to.
+<br><br>
+<b>NOTE</b> that there will be some rounding errors each time the camera moves, which can leave the camera a tenth of a degree or more from where you expected it to be after multiple movements. If you're trying to synch up with movements using other GestaltCamera functions, the debug lines can be very useful as a way of checking where the camera is actually ending up. The result should be the same every time you run the script, so you can just note down the final position of the camera and use that as the starting conditions for a GestaltCameraMove command.
+</p>
+</td>
+</tr>
+
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>camera scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

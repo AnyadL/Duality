@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraFacing</b></center>
+<p align=justify>
+This is the simplest of the GestaltCamera functions, behaving just like the standard Bioware SetCameraFacing function. As well as allowing you to make instantaneous cuts between shots, it also allows you to move the camera into position at the beginning of the cutscene, as in this example -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+
+    GestaltStartCutscene(oPC, "camfacing");
+
+    GestaltCameraFacing	(0.0,
+			0.0, 10.0, 45.0,
+			oPC, CAMERA_TRANSITION_TYPE_MEDIUM);
+
+    GestaltStopCutscene (5.0, oPC);
+}
+</pre>
+<br><br>
+And here's what it all means -
+<ol>
+<li><p align=justify><b>Delay</b> - The first number is the delay before the camera movement starts. As with all of the other GestaltCamera* functions, this is set up in exactly the same way as a DelayCommand call. In this case we want the movement to begin immediately, so we have set the delay time to 0.0.
+</p>
+<li><p align=justify><b>Camera Position</b> - The three numbers on the second line set where we want to put the camera, with the three <i>floats</i> appearing in the same order as they do in the SetCameraFacing function.
+<br><br>The first number is the compass direction in which the camera is pointing, counting the number of degrees anti-clockwise from due east.
+<br><br>The second number is the distance between the camera and the player.
+<br><br>The third number is how many degrees the camera is tilted from the vertical, with 0.0 placing the camera directly overhead.
+</p>
+<br>
+<li><p align=justify><b>Player selection</b> - The next thing you have to tell the function is which player you want to move the camera of. You can set up an <i>object</i> to contain this information, or you can simply put a function such as GetFirstPC(), GetPCSpeaker() or GetLastPlayerDied() directly in the GestaltCameraFacing line of your script.</p>
+<br>
+<li><p align=justify><b>Transition Speed</b> - Finally we tell the game how fast we want the camera to move. By default the camera will instantly switch to the new position, but any other CAMERA_TRANSITION_TYPE_* value will make it move smoothly from wherever it was before to the new position we've set. You can find a list of all the transition speeds by clicking on the "Constants" button in the upper right corner of the script editor in the toolset and typing in "camera" in the filter box above it.</p>
+</ol>
+<br><br>
+<p align=justify>
+The example script above moves the camera from wherever the player had it before the cutscene to a new position facing due east 10m from the player and looking down at them on a 45 degree angle. As there is currently no way of telling where the player has his camera, this is the only way of smoothly transitioning into a cutscene from the standard game camera.
+</p>
+</td>
+</tr>
+
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

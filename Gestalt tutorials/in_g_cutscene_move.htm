@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraMove</b></center>
+<p align=justify>
+This was the first function to be coded and is one of the most flexible and easy to use, allowing you to set where the camera starts, where it ends, and how long it takes to get there. Here is an example of how the function can be called from your own script -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+
+    GestaltStartCutscene(oPC, "movecam");
+
+    GestaltCameraMove	(0.0,
+			0.0, 20.0, 0.0,
+			270.0, 5.0, 50.0,
+			5.0, 20.0,
+			oPC,
+			0, 0, 0);
+
+    GestaltStopCutscene (5.5, oPC);
+}
+</pre>
+<br><br>
+So what do all those numbers mean?
+<ol>
+<li><p align=justify><b>Delay</b> - The first number is the delay before the camera movement starts. As with all of the other GestaltCamera* functions, this is set up in exactly the same way as a DelayCommand call. In this case we want the movement to begin immediately, so we have set the delay time to 0.0.
+</p>
+<li><p align=justify><b>Starting position</b> - The three numbers on the second line set the initial position of the camera, with the three <i>floats</i> appearing in the same order as they do in the SetCameraFacing function.
+<br><br>The first number is the compass direction in which the camera is pointing, counting the number of degrees anti-clockwise from due east.
+<br><br>The second number is the distance between the camera and the player.
+<br><br>The third number is how many degrees the camera is tilted from the vertical, with 0.0 placing the camera directly overhead.
+</p>
+<br>
+<li><p align=justify><b>Finishing position</b> - The second set of three numbers controls the finishing position of the camera, and are declared in the same order as for the starting position - first direction, then distance, and finally vertical tilt.</p>
+<br>
+<li><p align=justify><b>Timing controls</b> - The next line controls the timing of the movement. The first number tells the game how many seconds you want the camera movement to last, and the second tells it how many times per second you want the game to move the camera. The higher this number, the smoother the motion will be. Depending on how far and how fast the camera is moving, setting the number of camera moves per second to between 20.0 and 40.0 should produce a smooth motion without overloading the game.</p>
+<br>
+<li><p align=justify><b>Player selection</b> - The next thing you have to tell the function is which player you want to move the camera of. You can set up an <i>object</i> to contain this information, or you can simply put a function such as GetFirstPC(), GetPCSpeaker() or GetLastPlayerDied() directly in the GestaltCameraMove line of your script.</p>
+<br>
+<li><p align=justify><b>Options</b> - The last three numbers are integers which control various options in the function. The first option (iClockwise) sets whether the camera should move anti-clockwise (0), clockwise (1), or automatically go in whichever direction requires the least movement (2). This only needs to be set if you've told the camera to rotate around the player by changing the compass direction it's facing in. The second option (iFace) sets whether the PC (2), their camera (0) or both (1) will rotate. Again, it's only useful if your movement includes a change in compass direction. The final option (iParty) is for multiplayer modules only, and tells the function whether to move the camera of only the specified player (0), all the players in their party (1), or all the players on the server (2). All of these options default to 0.</p>
+</ol>
+<br><br>
+<p align=justify>
+So what does the example script above actually do? Well, the starting position is (0.0,20.0,0.0), which means that the camera is 20.0 units directly above the player and facing due east. The finishing position is (270.0,5.0,50.0), which is facing due south just 5.0 units from the player and 50.0 degrees from the vertical (which means 40.0 degrees from the ground). The motion takes 5.0 seconds, and the function moves the camera 20 times a second during this time. It is only applied to the camera of the first player in the player list, and the camera rotates anti-clockwise, which in this case means that it takes the long way round, with the compass direction the camera is facing in counting up from 0.0 to 270.0.
+<br><br>
+You can see this movement if you click on the GestaltCameraMove banner in the southwest corner of the test area in the "in_g_cutscene_camera" demo module.
+</p>
+<br><br>
+<center><b>Sample Scripts</b></center>
+<p align=justify>
+Here are a few more example scripts. Feel free to edit the camera demo module to replace the existing g_movecam script with the code samples listed below to see what they do, or try experimenting with it yourself.</p>
+<br>
+<pre>
+    GestaltCameraMove	(0.0
+			0.0, 20.0, 45.0,
+			0.0, 5.0, 45.0,
+			10.0, 10.0,
+			GetFirstPC());
+</pre>
+<p align=justify>
+This first script will place the camera 45.0 degrees from the vertical and facing due east. The camera starts 20.0 units from the player and then zooms smoothly to a close-up shot over a period of 10.0 seconds, starting instantly. The tilt and direction of the camera remain unchanged throughout. Note that because we're not moving the direction the camera is facing in, we don't need to tell the function whether to move clockwise or anti-clockwise. In fact, the function defaults to 0 (anti-clockwise), so if that's the direction you want the camera to move in and you don't need to set either of the other options, you can simply leave those terms off the end of the function call.
+</p>
+<br>
+<pre>
+    GestaltCameraMove	(0.0,
+			90.0, -1.0, -1.0,
+			270.0, -1.0, -1.0,
+			2.0, 20.0,
+			GetFirstPC(),
+			1, 2);
+</pre>
+<p align=justify>
+This second script will rapidly rotate the camera in a clockwise direction, from facing due north to due south - perfect for an "it's behind you" shot. Note that we've set iFace to 2 in this example. That means that the player's character will turn around to face whatever nasty you've just spawned to the south of him, as well as his camera.
+<br><br>
+Also note that we've set the starting and finishing range and tilt to -1.0 here. -1.0 is the number used by the SetCameraFacing function to indicate that it should leave that part of the camera's position unchanged at whatever the player has set it to at the time the function is called. This means that, regardless of where the player has their camera, only the compass direction in which it is facing will be changed by this script.
+<br><br>
+You <i>must</i> set both the starting and finishing condition for a parameter to -1.0 if you want to leave it where it is. You can't tell the camera to start off where the player has it and then move somewhere else, because Neverwinter Nights doesn't yet include a GetCameraFacing function so there's no way for the game to know where the camera was before the function was called.
+<br><br>
+</p>
+<br>
+<pre>
+    GestaltCameraMove	(5.0,
+			90.0, 20.0, 0.0,
+			90.0, 15.0, 50.0,
+			15.0, 20.0,
+			GetFirstPC()),
+			0, 0, 2);
+</pre>
+<p align=justify>
+This third script produces a smooth glide down towards the player similar to the one found at the start of the intro cutscene of my module <a href="http://nwvault.ign.com/Files/modules/data/1039459491521.shtml">The Lord Of Blight: Chapter One</a>. It starts 5.0 seconds after the script is called, with the camera 20.0 units directly above the player, and then tilts down slowly over a period of 15.0 seconds, zooming in slightly as it does so. Throughout this motion the camera is facing due north.
+<br><br>
+Note that here we've set iParty to 2. This means that every player on the server will witness the camera movement simultaneously. Because we've set this option, we also have to set the ones before it, even if (as in this case) we're just leaving them at their default values. If you set an optional parameter, you have to set all the other ones before it as well - you can't skip them.
+</p>
+</td>
+</tr>
+
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

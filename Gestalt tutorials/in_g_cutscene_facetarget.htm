@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraFaceTarget</b></center>
+<p align=justify>
+This is a simple little function which allows you to tell the player and/or his camera to instantly turn to face a target object. It's main use is as part of the GestaltCameraTrack function, but you can use it by itself. Here's an example -
+<pre>
+#include "in_g_cutscene"
+void main()
+{
+    object oPC = GetFirstPC();
+    object oTarget = GetObjectByTag("target");
+
+    GestaltCameraFaceTarget (oTarget
+                            5.0, 50.0,
+                            oPC,
+                            0, 0);
+}
+</pre>
+<br><br>
+Here's how you set the bit inside the brackets -
+<ol>
+<li><p align=justify><b>Target</b> - The first thing you have to do is tell the function which object you want the camera to face.
+</p>
+<br>
+<li><p align=justify><b>Camera position</b> - Next we set the distance between the camera and the player and the camera's vertical tilt, measured as the number of degrees from vertical. If you set either of these to -1.0 that part of the camera's position won't change when the function is called.</p>
+<br>
+<li><p align=justify><b>Player selection</b> - The next thing you have to tell the function is which player you want to move the camera of. You can set up an <i>object</i> to contain this information, or you can simply put a function such as GetFirstPC(), GetPCSpeaker() or GetLastPlayerDied() directly in the GestaltCameraMove line of your script.</p>
+<br>
+<li><p align=justify><b>Options</b> - The last two numbers are integers which control various options in the function. The first option (iFace) sets whether the PC (2), their camera (0) or both (1) will rotate to face the object you are tracking. The second option (iParty) is for multiplayer modules only, and tells the function whether to move the camera of only the specified player (0), all the players in their party (1), or all the players on the server (2). Both of these options default to 0.</p>
+</ol>
+<br><br>
+<p align=justify>
+This means that the example script above is turning the selected player's camera to face a target object with the imaginative tag "target", simultaneously zooming the camera in close-up to the player and down close to the ground (50 degrees from the vertical).</p>
+<br><br>
+<center><b>Sample Scripts</b></center>
+<p align=justify>
+Here are a couple more sample scripts to get your teeth into -</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+void main()
+{
+    object oPC = GetFirstPC();
+    object oTarget = GetObjectByTag("target");
+
+    GestaltCameraFaceTarget (oTarget
+                            -1.0, 50.0,
+                            oPC,
+                            1);
+}
+</pre>
+<p align=justify>
+This is exactly the same as the first target script, except that this time we are leaving the camera's distance from the player untouched. However far away the player had the camera at the time the function was called, it will stay there - only the tilt and direction of the camera will be changed. Also note that we've set iFace to 1, which means that the player and his camera will be turned together so that they both face the target object.
+<br><br>
+One last thing. Because we want to leave the last option (iParty) at its default value of 0 in this example, we don't atually have to include that parameter in the list when we call the function - the game will fill in the blank for us.
+</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+void main()
+{
+    object oPC = GetFirstPC();
+    object oTarget = GetObjectByTag("target");
+
+    GestaltCameraFaceTarget (oTarget
+                            -1.0, -1.0,
+                            oPC,
+                            2, 1);
+}
+</pre>
+<p align=justify>
+And finally here's an example of a script that will turn only the player's character but not his camera, by setting the final number to 2. As we're not moving the camera at all, we've left both of the camera controls at -1.0. We've also set iParty to 1, which means that all of the other players in the selected player's party will turn to face the object as well.
+<br><br><br>
+<b>NOTE</b> - GestaltCameraFaceTarget includes one more parameter - iCamID - which defaults to 0 and should NEVER be used in your own scripts. This is for internal use by other functions in the include file only.
+</p>
+</td>
+</tr>
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

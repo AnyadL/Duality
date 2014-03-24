@@ -1,0 +1,202 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraTrack</b></center>
+<p align=justify>
+This function causes the camera to track an object, turning the camera to face that object regardless of where the player or the target object moves during this time. Here is an example of how the function can be called from your own script -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oWPStart = GetWaypointByTag("wp_start");
+    object oWPEnd = GetWaypointByTag("wp_end");
+    object oMilitia = GetObjectByTag("militia");
+
+    GestaltStartCutscene(oPC, "trackcam");
+
+    GestaltActionJump   (0.0, oMilitia, oWPStart);
+
+    GestaltActionMove   (0.5, oMilitia, oWPEnd);
+
+    GestaltCameraTrack  (0.5,
+                        oMilitia,
+                        15.0, 50.0,
+                        15.0, 50.0,
+                        10.0, 20.0,
+                        oPC, 0);
+
+    GestaltStopCutscene (11.0, oPC);
+}
+</pre>
+<p align=justify>
+Most of this code is nothing to do with the GestaltCameraTrack function itself, it's setting up the militiaman to move from his starting waypoint to his destination waypoint. We teleport him to his start point, wait 0.5 seconds, then tell him to walk to his destination. Here's what the bit inside the GestaltCameraTrack() section of the script does -
+<ol>
+<li><p align=justify><b>Delay</b> - The first number is the delay before the camera movement starts. As with all the other GestaltCamera* functions, this is set up in exactly the same way as a DelayCommand call. As you can see, the delay is set to 0.5, so the camera begins tracking the militiaman at the same time as he receives his orders to move to oWPEnd.</p>
+<br>
+<li><p align=justify><b>Target</b> - The second line sets the object which the camera will track.</p>
+<br>
+<li><p align=justify><b>Starting position</b> - The third line sets the starting conditions for the camera - the initial distance between the camera and the player, and how many degrees from the vertical the camera is tilted.</p>
+<br>
+<li><p align=justify><b>Finishing position</b> - The fourth line sets the distance and tilt settings that the camera will reach by the end of the movement.</p>
+<br>
+<li><p align=justify><b>Timing controls</b> - The fifth line controls the timing of the movement. The first number tells the game how many seconds you want the camera to track your target for, and the second tells it how many times per second you want the game to move the camera. The higher this number, the smoother the motion will be. Depending on how far and how fast the camera is moving, setting the number of camera moves per second to between 10.0 and 20.0 should produce a smooth motion without overloading the game. Note that there's no point setting the frame rate much higher than 20.0 for this function, because you'll be limited by how smooth the motion of the target is rather than how fast the camera can turn to face it. Also note that if the PC and the target are both moving the camera motion won't be as smooth as it would be if one of them was stationary.</p>
+<br>
+<li><p align=justify><b>Player selection</b> - The next thing you have to tell the function is which player you want to move the camera of. You can set up an <i>object</i> to contain this information, or you can simply put a function such as GetFirstPC(), GetPCSpeaker() or GetLastPlayerDied() directly in the GestaltCameraFace line of your script.</p>
+<br>
+<li><p align=justify><b>Options</b> - The last two numbers are integers which control various options in the function. The first option (iFace) sets whether the PC (2), their camera (0) or both (1) will rotate to face the object you are tracking. The second option (iParty) is for multiplayer modules only, and tells the function whether to move the camera of only the specified player (0), all the players in their party (1), or all the players on the server (2). Both of these options default to 0.</p>
+</ol>
+<br><br>
+<p align=justify>
+This means that the example script above is telling the camera to track an object tagged "militia", with the camera staying 15.0 units from the player and 50.0 degrees from the vertical throughout the movement. It continues tracking the target for 10.0 seconds, moving the camera 20.0 times per second to give as smooth a motion as possible. The last two lines show that the movement is only applied to the first player in the player list and that only their camera is being rotated to face the target - their character keeps facing in the same direction throughout.
+<br><br>
+To see this code in action, click on the GestaltCameraTrack banner to the east of the test area in the "in_g_cutscene_camera" demo module.
+</p>
+<br><br>
+<center><b>Sample Scripts</b></center>
+<p align=justify>
+Here are a few more example scripts. Feel free to edit the camera test module to replace the existing g_trackcam function with the code samples listed below to see what they do, or try experimenting with it yourself.</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oWPStart = GetWaypointByTag("wp_start");
+    object oWPEnd = GetWaypointByTag("wp_end");
+    object oBanner = GetObjectByTag("ct_banner3");
+
+    GestaltCameraTrack (0.0,
+                        oBanner,
+                        15.0, 50.0,
+                        15.0, 50.0,
+                        10.0, 20.0,
+                        oPC);
+}
+</pre>
+<p align=justify>
+This is similar to the first sample script, except that this time we are starting the camera movement instantly and focusing the camera on a stationary object (the banner) while allowing the player to run around freely. Note that because we're leaving both the integer options at their default values we don't have to list them when we call the function - the game will fill in the blanks.
+</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetEnteringObject();
+
+    if (!GetIsPC(oPC))
+        { return; }
+
+    object oWPStart = GetWaypointByTag("wp_start");
+    object oWPEnd = GetWaypointByTag("wp_end");
+    object oMilitia = GetObjectByTag("militia");
+
+    GestaltActionJump   (0.0, oMilitia, oWPStart);
+
+    GestaltActionMove   (0.5, oMilitia, oWPEnd);
+
+    GestaltCameraTrack  (0.5,
+                        oMilitia,
+                        15.0, 50.0,
+                        15.0, 50.0,
+                        10.0, 20.0,
+                        oPC));
+}
+</pre>
+<p align=justify>
+This script again tracks the militiaman from the original sample script, but also allows the PC to run around freely. Notice what happens when both the player and the militiaman are moving - the camera has difficulty keeping track of two objects which are both moving unevenly. This is why this function is best used when either the player or the target is stationary.
+<br><br>
+In this example we've selected the player whose camera we want to move using GetEnteringObject, with the script stopping if the object isn't a valid PC. This kind of script could be placed in the OnEnter slot of a trigger or area.
+</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetPCSpeaker();
+    object oWPStart = GetWaypointByTag("wp_start");
+    object oWPEnd = GetWaypointByTag("wp_end");
+    object oMilitia = GetObjectByTag("militia");
+
+    GestaltStartCutscene(oPC, "trackcam", TRUE, TRUE, TRUE, TRUE, TRUE, 1);
+
+    GestaltActionJump   (0.0, oMilitia, oWPStart);
+
+    GestaltActionMove   (0.5, oMilitia, oWPEnd);
+
+    GestaltCameraTrack  (0.5,
+                        oMilitia,
+                        15.0, 50.0,
+                        10.0, 35.0,
+                        10.0, 20.0,
+                        oPC,
+                        1, 1));
+
+    GestaltStopCutscene (11.0, oPC, "", TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 1);
+}
+</pre>
+<p align=justify>
+Here we have locked the player down again and are focusing once again on the moving militiaman. We've also added two more things to this script though. Firstly the start and end camera positions are now different - the camera zooms in slightly from 15.0 to 10.0 units from the player and tilts up from 50.0 degrees to 35.0 degrees from the vertical. Also notice that the last two numbers are now both set to 1. This means that the player's entire party will track the militiaman's movement, with both the players and their cameras turning to face the soldier. We have also set the iParty option in the start and stop cutscene functions to match.
+<br><br>
+We've used GetPCSpeaker to select the player we want in this script. That means this script could be used in the Ended / Aborted slots of a conversation or in the Action Taken slot of a particular line of dialogue within that conversation, causing the party of the player who is talking to all turn to follow the guard as he walks past.
+
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oWPStart = GetWaypointByTag("wp_start");
+    object oWPEnd = GetWaypointByTag("wp_end");
+    object oMilitia = GetObjectByTag("militia");
+
+    GestaltStartCutscene(oPC, "trackcam");
+
+    GestaltActionJump   (0.0, oMilitia, oWPStart);
+
+    GestaltActionMove   (0.5, oMilitia, oWPEnd);
+
+    GestaltCameraTrack  (0.5,
+                        oMilitia,
+                        0.0, 0.0,
+                        0.0, 0.0,
+                        10.0, 4.0,
+                        oPC, 2));
+
+    GestaltStopCutscene (11.0, oPC);
+}
+</pre>
+<p align=justify>
+One last script, again tracking the militiaman. This time though iFace is set to 2, meaning that only the player will turn to track the target. Because the camera remains stationary throughout we don't need to worry about the range and tilt settings, although the numbers must still be included - I've set them all to 0.0. Also notice that I've set the frame rate much lower than normal. This is because the player shuffles round by several degrees at a time when he turns, so as we're not moving the camera we don't need to worry about how smooth the motion is - it won't make any difference in this case. For obvious reasons we are stopping the player from moving their character around manually during this movement. You might want to add a few more waypoints and GestaltActionMove commands for this script to see what happens when the guard runs around the player in a circle.</p>
+</td>
+</tr>
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

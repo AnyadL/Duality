@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltFixedCamera</b></center>
+<p align=justify>
+Although this function wasn't created with cutscenes in mind, we're including it here for the curious. What it does is to allow you to effectively fix a player's camera in one place and have it rotate to face their character at all times. Obviously there's no way to attach Neverwinter Nights' camera to anything other than the player at the moment, so we're actually cheating by using some maths to adjust the range, tilt and direction of the camera so that it seems to stay in one place as the player runs around the area.
+<br><br>
+Here's how you use it -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetEnteringObject();
+
+    if (!(GetIsPC(oPC)))                // triggering object is not a PC
+        { return; }                     // so end the script immediately
+
+    SetCameraMode(oPC,CAMERA_MODE_TOP_DOWN);
+    SetLocalString(oPC,"sGestaltFixedCamera","wp_test_camera1");
+    SetLocalFloat(oPC,"fGestaltFixedCamera",12.0);
+    DelayCommand(0.1,GestaltFixedCamera(oPC,30.0));
+}
+</pre>
+<br><br>
+That looks simple, doesn't it? Here's what's happening...
+<ol>
+<li><p align=justify><b>Find The Player</b> - The first thing to do is work out whose camera you want to take control of. The script above is placed in the OnEnter slot for either an area or a trigger, and GetEnteringObject() tells you which character activated the script. First we need to check that it was an actual human player, which is what the GetIsPC(oPC) check does. If so, the script continues...</p>
+<br>
+<li><p align=justify><b>SetCameraMode</b> - Next we need to set the player's camera to CAMERA_MODE_TOP_DOWN, otherwise the effect won't look right.</p>
+<br>
+<li><p align=justify><b>Choose A Camera</b> - Next we tell it where to put the camera. The first thing to do is to place a waypoint with a unique tag (in this case "wp_test_camera1") where you want the camera to be. Vertical positioning doesn't matter, so feel free to put the waypoint on top of a wall or at the bottom of a lake if that's where you want it.
+<br><br>
+Once you've placed the waypoint representing the camera's position, you can select it at any time by setting the LocalString <i>sGestaltFixedCamera</i> on any given player to the tag of the camera. The next time the GestaltFixedCamera function is called by that player their view will be switched to that camera position.</p>
+<br>
+<li><p align=justify><b>Select Camera Height</b> - The next line in the script sets how high the camera should be as a LocalFloat <i>fGestaltFixedCamera</i>. This represents the camera's height above the player - if the player moves vertically the camera will also move up and down to stay that distance above him.</p>
+<br>
+<li><p align=justify><b>Fire Up The Function</b> - Finally we call the GestaltFixedCamera function. You only need to do this once, setting the player whose camera you want to control (oPC) and the number of times each second that the function should move the camera (in this case 30.0, which creates a reasonably smooth effect as long as the player doesn't get too close to the camera position).</p>
+</ol>
+<p align=justify>
+<br><br>
+The script above is fired when the player enters the fixed camera test area by clicking on the GestaltFixedCamera banner in the southwest corner of the starting area in the "in_g_cutscene_camera" demo module.
+<br><br>
+Using this function takes a little practice, but here are some pointers -
+<br><br>
+<ul>
+<li><p align=justify><b>Camera placement</b> - Remember that the camera's movement is limited - it can't move right down to the ground unless the player has the camera hack installed, and it can't zoom out to more than 20.0 units away from the player (or 30.0 with the camera hack installed). This means that if you try to cover a large area with a single camera position the camera won't be able to pull back far enough or swing close enough to the ground to maintain its position if the player moves more than one or two tiles away from it. If the area you're using the fixed camera system in is larger than two tiles, it's best to place multiple cameras and use triggers to switch between them.
+<br><br>
+Also bear in mind that Neverwinter Nights' movement code isn't very smooth, and the closer you get to the camera the more problems this will cause. The biggest problem is if the player is able to get right under your camera, because it will then have to spin around really fast to change the direction it's pointing in as they walk under it. Because of this it's best to place the camera on top of walls or in other parts of the area that the player can't reach to make sure they can't get directly underneath it.
+<br><br>
+<li><p align=justify><b>Camera selection</b> - So now you've placed your cameras, how do you select them? Well, the clever thing about GestaltFixedCamera is that it calls itself in a continuous loop, so once you've set it going all you need to do is let it know when to switch between different camera positions. To do this, simply put these lines in the OnEnter script for a trigger -
+<br>
+<pre>
+void main()
+{
+    object oPC = GetEnteringObject();
+
+    if (!(GetIsPC(oPC)))                // triggering object is not a PC
+        { return; }                     // so end the script immediately
+
+    SetLocalString(oPC,"sGestaltFixedCamera","wp_test_camera2");
+    SetLocalFloat(oPC,"fGestaltFixedCamera",10.0);
+}
+</pre>
+<p align=justify>
+What we've done here is switch the camera to "wp_test_camera2" and set its height above the player to 10.0 units. If you're not sure what that means in the game, one tile is 10.0 units along each side. Note that we didn't have to call GestaltFixedCamera again, and so we didn't need to include in_g_cameramove.</p>
+<li><p align=justify><b>Trigger use</b> - If you open up the demo module in the toolset and view area 2, you will see that I use two triggers placed close together to switch between the various camera positions. For example, you start off in a narrow corridor with the camera fixed above the wall ahead of you, but once you go around the corner there's two triggers on the ground just before you get on to the wooden planking.
+<br><br>
+The trigger nearest to the first camera will switch your view to the first camera, while the one just beyond it switches the player's view to the second camera position. The second camera may be difficult to spot because it's at the bottom of the pool. Don't worry about that - the camera's height above the player is set using the <i>fGestaltFixedCamera</i> LocalFloat, and is completely independent of the camera waypoint's vertical position.
+<br><br>
+By using two triggers close together like this we make sure that the player never ends up with the camera set to the wrong position. Run around the fixed camera test area to satisfy yourself that using pairs of triggers in this way to switch between different camera positions works and that there's no way to fool it into giving you the wrong view.
+</p>
+<li><p align=justify><b>Turn it off!</b> - To turn the fixed camera function off for a particular player, simply set the value of their LocalString <i>sGestaltFixedCamera</i> to "STOP". As soon as the function finds that the camera position tag has been set to STOP it will stop the loop and the player will regain control of their camera. Make sure to do this when the player leaves an area where you have used GestaltFixedCamera!
+<br><br>
+If you merely want to pause the effect, for example during a cutscene or if the player enters a part of the area where you want them to be able to manually control the camera, simply add the line <i>SetLocalString (oPC, "sGestaltFixedCamera", "");</i> to the beginning of your script. When the GestaltFixedCamera function finds that no camera tag has been specified it goes into a holding state, checking once per second to see if a new camera position has been selected, but leaving the player (or another script) free to control the camera's movement in the meantime.
+</ul>
+<p align=justify>
+If you're still not sure of how the fixed camera system works, open the demo module in the toolset and examine the positioning of the camera waypoints and triggers in the test area, and check what the various fixedcam scripts are doing.
+</td>
+</tr>
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>Parameter Limits</b></center>
+<p align=justify>
+The movement of the camera is limited by the game engine to within certain bounds. Here's a quick run-down on where you can and can't place the camera, as of Neverwinter Nights v1.68 -
+</p>
+<br>
+<ul>
+<li><p align=justify><b>Compass Direction</b> - 0.0 to 360.0
+<br><br>
+0.0 represents due east and the compass direction is then counted as the number of degrees anti-clockwise from there, for reasons best known to BioWare. Obviously the maximum direction is therefore 360.0 degrees, which is the same as 0.0 degrees - due east.
+<br><br>
+Note that although these are the limits of where the camera can be placed, you <i>can</i> set numbers outside of these bounds for the finishing direction (but <i>not</i> the starting direction!). If you want your camera to make more than one rotation around the player in a GestaltCameraMove based script, simply add 360.0 for each anti-clockwise rotation or subtract 360.0 for each clockwise rotation that you want the camera to make. For example, setting the starting direction to 0.0 and the finishing direction to 450.0 will cause the camera to start at due east, spin all the way around the player, and then carry on another 90.0 degrees to end up facing due north.
+</p>
+<br>
+<li><p align=justify><b>Range</b> - 1.0 to 25.0
+<br><br>
+The range is the distance between the player and the camera, and can be set to anywhere between 1.0 and 25.0 units. Any values outside of those limits will simply be ignored and the camera will only start moving once it reaches a legal value.
+</p>
+<br>
+<li><p align=justify><b>Pitch</b> - 0.0 to 90.0
+<br><br>
+The pitch measures how many degrees from the vertical the camera is tilted. A pitch of 0.0 means that the camera is directly above the player, looking straight down at the top of their head. A pitch of 90.0 puts the camera flat on the ground looking horizontally at the player. Trying to set a pitch greater than this has no effect, and you can't set a negative pitch either - that would be going beyond the vertical and looking at the player upside down!</p>
+<br>
+<li><p align=justify><b>Height</b> - unknown
+<br><br>
+You can now adjust the height above the player of the point which the camera focuses on, allowing you to move the camera vertically up and down. There are no clear limits to how far you can move the camera's height - you can lift it way up into the sky until the ground below is merely a blur of fog, and you can even move it below ground level! Feel free to experiment.
+</td>
+</tr>
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

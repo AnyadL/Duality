@@ -1,0 +1,174 @@
+<html>
+<head>
+<title>Cutscene Scripting For Neverwinter Nights</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<br><br>
+<b><font size=+1>Cutscene Scripting For Neverwinter Nights</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<a name="1"></a>
+<center><b>Dialogue</b></center>
+<p align=justify>
+Most cutscenes will involve some dialogue. This is achieved using the <i>GestaltSpeak</i> function, which combines DelayCommand, AssignCommand, SpeakString and PlayAnimation into one easy-to-use function.
+<br><br>
+For example, let's say we want the player's character to speak the opening lines of Richard III at the beginning of the cutscene whilst playing the standard talking animation. The first variable that GestaltSpeak requires is (as usual) fDelay, to set how long to wait before speaking the line. The second variable (again, this is the same for most Gestalt functions) is oActor, the character we want to speak the line. In this case it's the player - oPC.
+<br><br>
+Next we tell the actor what words they should speak ("Now is the winter of our discontent, made glorious summer by this son of York"), and which animation to play while saying them (ANIMATION_LOOPING_TALK_NORMAL). We also need to set how long the animation should last for. Note that if you leave the animation at its default value of ANIMATION_NONE the character won't play any animation whilst speaking the line. This is useful for when you want a character to speak dialogue while they're walking or fighting, or otherwise occupied. Also note that the Gestalt cutscene scripting system includes constant NORMAL, LAUGHING, PLEADING and FORCEFUL so that you don't need to keep typing ANIMATION_LOOPING_TALK_ over and over again.
+<br><br>
+So here's the code we end up with -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find actors
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+
+
+    // Start cutscene
+    GestaltStartCutscene    (oPC,"mycutscene",TRUE,TRUE,TRUE,TRUE,2);
+
+
+    // Deliver lines
+    GestaltSpeak            (1.0,  oPC,
+                            "Now is the winter of our discontent",
+                            NORMAL,4.0);
+
+    GestaltSpeak            (5.0,  oPC,
+                            "made glorious summer by this son of York",
+                            NORMAL,4.0);
+
+
+    // End cutscene
+    GestaltStopCutscene     (10.0,  oPC);
+}
+</pre>
+<p align=justify>
+Note that we've increased the length of the cutscene to 10.0 seconds to give the character plenty of time to deliver his lines. One of the most common mistakes in cutscenes is to have lines flash past so quickly that you can't read them, especially if English isn't your first language. We've gone slightly overboard here, but three seconds for each of those lines would probably be about right. Just run through the cutscene in the module and see how it looks, and remember to leave slightly longer than <i>you</i> need to read and understand the lines, as other players won't be as familiar with the dialogue as you are and may not speak the language you wrote the dialogue in as well as you do.
+<br><br>
+Also note that we've indented the lines so that the left brackets all line up, spaced things out a bit more, and added some quick comments (the lines beginning with //). This makes the code neater and easier to follow, particularly for anyone else who might want to look at your script, and it won't make any difference to the size of the script once it has been compiled. Blank space is your friend!
+</p>
+
+<br><br><br>
+<a name="2"></a>
+<center><b>Animations</b></center>
+<p align=justify>
+To make things a little more interesting, you might want to change the animations played by the character as he speaks the lines. For example, FORCEFUL might be good for the first half of the dialogue, and ANIMATION_FIREFORGET_VICTORY2 for the second part.
+<br><br>
+As this second animation is a fire and forget animation, it doesn't need a duration. It also won't last for the whole length of that line of dialogue though, so you'll want to switch to another animation (say the NORMAL talking animation) after it ends.
+<br><br>
+This is where the action queue comes in. As you no doubt know, if you add an item to a character's action queue in Neverwinter Nights, that action won't be carried out until the previous one is complete. This is equally true for the GestaltAction* functions in the cutscene scripting system. For example -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find actors
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+
+
+    // Start cutscene
+    GestaltStartCutscene    (oPC,"mycutscene",TRUE,TRUE,TRUE,TRUE,2);
+
+
+    // Deliver lines
+    GestaltActionSpeak      (1.0,  oPC,
+                            "Now is the winter of our discontent",
+                            FORCEFUL,4.0);
+
+    GestaltActionSpeak      (5.0,  oPC,
+                            "made glorious summer by this son of York",
+                            ANIMATION_FIREFORGET_VICTORY2);
+
+    GestaltActionAnimate    (5.0,  oPC,   NORMAL,2.0);
+
+
+    // End cutscene
+    GestaltStopCutscene     (10.0,  oPC);
+}
+</pre>
+<p align=justify>
+As you can see, we've introduced a new function GestaltActionAnimate here. This does exactly what you would expect, telling the selected character to play an animation. In this case we're playing the NORMAL talking animation for 2.0 seconds, and because it's an Action function it won't be triggered until the previous action (the victory animation) ends.
+</p>
+
+<br><br><br>
+<a name="3"></a>
+<center><b>Movement</b></center>
+<p align=justify>
+Let's give the player an audience now. Put an NPC with the tag "mycutscene_actor" into the area about 10 metres (a tile's width) away from the player's starting position. Make sure the NPC's faction isn't Hostile to the player, or they will attack each other on sight and interrupt the performance!
+<br><br>
+The NPC is found as usual with GetObjectByTag (assuming you gave them a unique tag!), and we can move them towards the player once the performance begins using GestaltActionMove. This works in much the same way as the standard BioWare movement functions, except that (as usual) it includes the character we want to move and the time to wait before moving. We also have the option to tell the character how long to take over the movement. This will automatically adjust the character's movement rate up or down so that they arrive in the right place at (more or less) the right time.
+<br><br>
+For example -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find actors
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+    object oFan = GetObjectByTag("mycutscene_actor");
+
+
+    // Start cutscene
+    GestaltStartCutscene    (oPC,"mycutscene",TRUE,TRUE,TRUE,TRUE,2);
+
+
+    // Player delivers lines, then turns to face NPC
+    GestaltActionSpeak      (1.0,  oPC,
+                            "Now is the winter of our discontent",
+                            FORCEFUL,4.0);
+
+    GestaltActionSpeak      (5.0,  oPC,
+                            "made glorious summer by this son of York",
+                            ANIMATION_FIREFORGET_VICTORY2);
+
+    GestaltActionAnimate    (5.0,  oPC,   NORMAL,2.0);
+    GestaltFace             (9.2,  oPC,   0.0,2,oFan);
+
+
+    // Move the NPC towards the player and congratulate him
+    GestaltActionMove       (5.0,  oFan,  oPC,FALSE,1.0,4.0);
+
+    GestaltActionSpeak      (9.0,  oFan,
+                            "That was quite a performance!",
+                            ANIMATION_LOOPING_GET_MID,2.0);
+
+
+    // End cutscene
+    GestaltStopCutscene     (12.0, oPC);
+}
+</pre>
+<p align=justify>
+The GestaltActionMove line tells the game to wait 5.0 seconds, then send oFan to oPC. The FALSE lets oFan know to walk, the 1.0 tells him to stop 1.0m away from oPC, and the 4.0 on the end tells him to take about 4.0 seconds to make the movement. Once he's there he'll reach out his hand to the player and speak his line.
+<br><br>
+If you started the NPC behind or to one side of the player's character, they wouldn't be facing in the right direction to accept these plaudits. This is where the GestaltFace and GestaltActionFace functions come in. In this case we've used GestaltFace to tell the player to turn around and face their fan - the 9.2 is the delay before turning, oPC is the character to turn, and 0.0 is the direction you want them to face in. In this case that direction doesn't matter, because the next variable (iFace) has been set to 2, telling the character to automatically turn to face the current position of the object, wherever they happen to be at the time. Finally we tell the GestaltFace function which object we want oPC to face - oFan.
+
+<br><br>
+<center>
+&lt; <a href="in_g_cutscene_page1.htm">prev</a> 
+&nbsp; <a href="in_g_cutscene_index.htm">index</a>
+&nbsp; <a href="in_g_cutscene_page3.htm">next</a> &gt;
+</center>
+</td>
+</tr>
+</table>
+
+<br><br>
+<br><br>
+<font size=-1>cutscene scripting system and tutorial by John Bye
+<br>feedback, suggestions and questions can be posted at my <a href="http://nwn.bioware.com/guilds_registry/viewguild.html?gid=13847">cutscene scripting guild</a></font>
+
+</center>
+
+</body>
+</html>

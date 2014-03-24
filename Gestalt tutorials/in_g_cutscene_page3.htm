@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>Cutscene Scripting For Neverwinter Nights</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<br><br>
+<b><font size=+1>Cutscene Scripting For Neverwinter Nights</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<a name="1"></a>
+<center><b>Fade In / Fade Out</b></center>
+<p align=justify>
+Another recent addition to Neverwinter Nights is the ability to fade the screen to and from black. Again, you need to be careful with this as once the player's screen is blacked out they won't be able to see anything unless you remember to cancel the fade at the end of the scene! The good news is that (by default) the GestaltStopCutscene will automatically cancel any remaining fades for you.
+<br><br>
+To illustrate this, let's begin the cutscene with the screen black and then fade in for the player's opening line. At the end of the cutscene, we'll then do a cross fade (fading to black and then returning to full visibility) to cover us removing the NPC from the game after he's spoken to the player. This can all be done using the GestaltCameraFade function, with a GestaltDestroy line to remove the NPC. Here's the code -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find actors
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+    object oFan = GetObjectByTag("mycutscene_actor");
+
+
+    // Start cutscene, fade in
+    GestaltStartCutscene    (oPC,"mycutscene",TRUE,TRUE,TRUE,TRUE,2);
+    GestaltCameraFade       (0.0,  oPC,   FADE_IN,FADE_SPEED_MEDIUM);
+
+
+    // Player delivers lines, then turns to face NPC
+    GestaltActionSpeak      (1.0,  oPC,
+                            "Now is the winter of our discontent",
+                            FORCEFUL,4.0);
+
+    GestaltActionSpeak      (5.0,  oPC,
+                            "made glorious summer by this son of York",
+                            ANIMATION_FIREFORGET_VICTORY2);
+
+    GestaltActionAnimate    (5.0,  oPC,   NORMAL,2.0);
+    GestaltFace             (9.2,  oPC,   0.0,2,oFan);
+
+
+    // Move the NPC towards the player and congratulate him
+    GestaltActionMove       (5.0,  oFan,  oPC,FALSE,1.0,4.0);
+
+    GestaltActionSpeak      (9.0,  oFan,
+                            "That was quite a performance!",
+                            ANIMATION_LOOPING_GET_MID,2.0);
+
+
+    // Fade to black and remove the NPC
+    GestaltCameraFade       (12.0, oPC,   FADE_CROSS,FADE_SPEED_MEDIUM,2.0);
+    GestaltDestroy          (13.0, oFan);
+
+    // End cutscene
+    GestaltStopCutscene     (15.0, oPC);
+}
+</pre>
+<p align=justify>
+The first call of GestaltCameraFade happens right at the beginning of the cutscene (0.0 seconds) and performs a FADE_IN on the player using BioWare's standard FADE_SPEED_MEDIUM to decide how fast to adjust the brightness of the screen. The screen will automatically start completely black and then gradually fade in. It should be fully visible by about the time the player begins his first line.
+<br><br>
+The second call of GestaltCameraFade uses the FADE_CROSS option. This makes the screen fade out, stay black for a while, and then fade back in again. In this case we've set the fDuration variable to 2.0, which means that the screen will begin fading back in 2.0 seconds after it started fading out. Using FADE_SPEED_MEDIUM again, we should get a short period in the middle of this cross fade where the screen is completely blank, which should hide the fact that we're removing the NPC.
+<br><br>
+Finally we've added a GestaltDestroy line to remove the NPC. As you can see, this function is really easy to use; it only needs to know two things - what to destroy and when. Try out this new version of the cutscene and see what happens. If you can still see the NPC being destroyed, try adjusting the duration and speed of that final camera fade. Note that if the camera fade overlaps the end of the cutscene, the GestaltStopCutscene function will automatically bring the screen back to full visibility instantly.
+</p>
+
+<br><br><br>
+<a name="2"></a>
+<center><b>Camera Movements</b></center>
+<p align=justify>
+One of the unique features of the Gestalt Cutscene Scripting System is the ability to add smooth, accurately timed camera movements to your cutscenes to give them that extra cinematic feel, using the GestaltCamera functions. A full description of these functions can be found elsewhere in this manual - see the <a href="in_g_cutscene_index.htm">index</a>.
+<br><br>
+Let's add a simple camera movement to our cutscene for now, just to show how it fits in with the rest of the code. To begin with we're going to find out the direction the player is facing in. The camera will start facing straight towards them, and then then slowly swing around the player as he speaks his lines until it's to one side of him.
+<br><br>
+I normally put all the camera movements in one place at the end of a cutscene script to make them easier to find, but there's no reason you have to do this. You may find the script easier to follow with them mixed in with the actions they take place alongside. Anyway, here is the code -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    // Find actors
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+    object oFan = GetObjectByTag("mycutscene_actor");
+
+
+    // Find the direction the player's facing in at the start of the scene
+    float fFace = GetFacing(oPC);
+
+
+    // Start cutscene, fade in
+    GestaltStartCutscene    (oPC,"mycutscene",TRUE,TRUE,TRUE,TRUE,2);
+    GestaltCameraFade       (0.0,  oPC,   FADE_IN,FADE_SPEED_MEDIUM);
+
+
+    // Player delivers lines, then turns to face NPC
+    GestaltActionSpeak      (1.0,  oPC,
+                            "Now is the winter of our discontent",
+                            FORCEFUL,4.0);
+
+    GestaltActionSpeak      (5.0,  oPC,
+                            "made glorious summer by this son of York",
+                            ANIMATION_FIREFORGET_VICTORY2);
+
+    GestaltActionAnimate    (5.0,  oPC,   NORMAL,2.0);
+    GestaltFace             (9.2,  oPC,   0.0,2,oFan);
+
+
+    // Move the NPC towards the player and congratulate him
+    GestaltActionMove       (5.0,  oFan,  oPC,FALSE,1.0,4.0);
+
+    GestaltActionSpeak      (9.0,  oFan,
+                            "That was quite a performance!",
+                            ANIMATION_LOOPING_GET_MID,2.0);
+
+
+    // Fade to black and remove the NPC
+    GestaltCameraFade       (12.0, oPC,   FADE_CROSS,FADE_SPEED_MEDIUM,2.0);
+    GestaltDestroy          (13.0, oFan);
+
+
+    // Camera movements
+    GestaltCameraMove       (0.0,
+                            fFace + 180.0,15.0,30.0,
+                            fFace + 90.0, 12.0,50.0,
+                            10.0,30.0,oPC);
+
+
+    // End cutscene
+    GestaltStopCutscene     (15.0, oPC);
+}
+</pre>
+<p align=justify>
+That's a lot of numbers! Luckily the camera functions (particularly GestaltCameraMove) are easier to use than you might think at first glance. The first number is (as usual) how long to wait before starting the camera movement. The first camera movement should start right at the beginning of the scene, so its delay is set to 0.0.
+<br><br>
+Next we set the starting position of the camera. In this case we are facing 180.0 degrees from the direction the player is facing in (in other words, we're looking right at their front), with the camera 15.0 metres away and 30.0 degrees from the vertical.
+<br><br>
+The next line is just the same, but setting the end position. We've swung the camera around 90.0 degrees clockwise (from fFace + 180 to fFace + 90), zoomed it in slightly (from 15 to 12m) and tilted it down closer to the ground (from 30.0 to 50.0).
+<br><br>
+Finally we set how long the camera movement should take (10.0 seconds), how many times per second to move the camera (30.0) and the player whose camera we want to move (oPC). Don't worry too much about that framerate number - 30.0 is a good choice for most camera movements, as it keeps the movement looking smooth without overloading the player's CPU. With slower camera movements you can get away with lower framerates, while rapid movements may require higher framerates.
+<br><br>
+<b>NOTICE</b> that the camera functions start with the delay like any other Gestalt* function, but the player we want to apply the camera movement to is set towards the end of the variables, not right after the delay. Apologies for any confusion this causes, but it was the way the functions were originally written and they were left that way to make the scripting system back compatible.
+</p>
+<br><br>
+<center>
+&lt; <a href="in_g_cutscene_page2.htm">prev</a> 
+&nbsp; <a href="in_g_cutscene_index.htm">index</a>
+&nbsp; <a href="in_g_cutscene_page4.htm">next</a> &gt;
+</center>
+</td>
+</tr>
+</table>
+
+<br><br>
+<br><br>
+<font size=-1>cutscene scripting system and tutorial by John Bye
+<br>feedback, suggestions and questions can be posted at my <a href="http://nwn.bioware.com/guilds_registry/viewguild.html?gid=13847">cutscene scripting guild</a></font>
+</center>
+
+</body>
+</html>

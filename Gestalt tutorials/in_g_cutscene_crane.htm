@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraCrane</b></center>
+<p align=justify>
+GestaltCameraCrane works just like GestaltCameraMove, except that it takes advantage of the new SetCameraHeight function added in Neverwinter Nights v1.60. By adjusting the height of the point the camera focuses on as well as the tilt, zoom and rotation, you can produce crane shots.
+<br><br>
+What's a crane shot? Well, it's exactly what it sounds like - you put the camera on a crane and hoist it up into the air. One of the most spectacular crane shots you'll see on the big screen is the one lifting up over the roof of the railway station near the beginning of Once Upon A Time In The West, revealing the frontier town spread out beyond.
+<br><br>
+So how do we do this in Neverwinter Nights?
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+
+    GestaltStartCutscene(oPC, "cranecam");
+
+    GestaltCameraCrane  (0.0,
+                        0.0, 3.0, 90.0, 0.2,
+                        0.0, 3.0, 90.0, 0.8,
+                        5.0, 20.0,
+                        oPC, 0);
+
+    GestaltStopCutscene (5.5, oPC);
+}
+</pre>
+<br><br>
+As you can see, GestaltCameraCrane is called exactly the same way as GestaltCameraMove, except that the second and third lines have an extra number on the end to set the start and end height you want. Try replacing the g_movecam script in the "in_g_cutscene_camera" demo module with the code above and see what happens. The camera should start looking at the PC's feet and then slowly pan up to their head. Of course, if you're playing a halfling, dwarf or gnome, the camera might lift a little too high! Now try putting the camera behind the PC and adding a slight tilt to the movement.</p>
+<br><br>
+<a name="2"></a>
+<center><b>GestaltCameraCraneSmooth</b></center>
+<p align=justify>
+As you might have guessed, GestaltCameraCraneSmooth works just like GestaltCameraSmooth, but with the added option of adjusting the camera's height to produce a crane shot. Here's a simple example showing a camera that rises up smoothly and then slows to a stop again at the end -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+
+    GestaltStartCutscene    (oPC,   "mv_crane");
+
+    GestaltCameraSetup      (0.0,   oPC,    90.0,05.0,50.0,1.0);
+
+    // 90.0,05.0,50.0,01.0
+
+    GestaltCameraCraneSmooth(0.0,
+                            0.0,0.0,0.0,0.0,
+                            -4.0,-0.2,2.0,0.8,
+                            5.0,30.0,oPC);
+
+    // 80.0,05.5,55.0,03.0
+
+    GestaltCameraCraneSmooth(5.0,
+                            -4.0,-0.2,2.0,0.8,
+                            0.0,0.0,0.0,0.0,
+                            5.0,30.0,oPC);      
+
+    // 70.0,06.0,60.0,05.0
+
+    GestaltStopCutscene     (11.0,  oPC);
+}
+</pre>
+<p align=justify>
+As with GestaltCameraSmooth, we are using GestaltCameraSetup to set the starting position for the shot. In this case though we have another number on the end - the height. We're going to start this movement with the camera facing due north (90.0), 5.0 units from the PC, tilted at 50.0 degrees to the vertical and 1.0 units above the ground the PC is standing on.
+<br><br>
+Likewise, the numbers in the GestaltCameraCraneSmooth functions do exactly the same as for GestaltCameraSmooth, except that we now have an extra height setting on the end of the second and third lines. As you can see, we start the first camera movement stationary (0.0 for all four speeds - rotation, zoom, tilt and height) and then smoothly accelarate up to the speeds set on the second line. The second camera movement begins with the same speeds the first one ends with, producing a smooth transition, and then slows back down to a standstill at the end. The comments between the functions show where the camera will be at each stage of the script.
+<br><br>
+Try replacing the g_smoothcam script with the code above and see what happens. The camera should start behind the PC and then lift up into the air, slowly turning right to focus on the impaled corpses. Neat, eh?
+
+</p>
+</td>
+</tr>
+
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

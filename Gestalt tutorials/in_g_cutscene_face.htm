@@ -1,0 +1,206 @@
+<html>
+<head>
+<title>Gestalt Cutscene Scripting System</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<b><font size=+1>Gestalt Cutscene Scripting System</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<center><b>GestaltCameraFace</b></center>
+<p align=justify>
+This function provides a simple way of turning the camera so that it moves from pointing towards one object to another. Here is an example of how the function can be called from your own script -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oBob = GetObjectByTag("bob");
+    object oJoe = GetObjectByTag("joe");
+
+    GestaltStartCutscene(oPC, "facecam");
+
+    GestaltCameraFace   (0.0,
+                        oBob, 15.0, 50.0,
+                        oJoe, 15.0, 50.0,
+                        2.5, 20.0,
+                        oPC,
+                        0, 1, 0);
+
+
+    GestaltStopCutscene (2.5, oPC);
+}
+</pre>
+What does this all do?
+<ol>
+<li><p align=justify><b>Delay</b> - The first number is the delay before the camera movement starts. As with all the other GestaltCamera* functions, this is set up in exactly the same way as a DelayCommand call. In this case we have set it to 0.0, so the movement begins immediately.</p>
+<br>
+<li><p align=justify><b>Starting position</b> - The first line sets the starting conditions for the camera.
+<br><br>First you set the object that you want the camera to start off facing
+<br><br>Next you set the initial distance between the camera and the player
+<br><br>Finally you set how many degrees the camera is tilted from the vertical at the beginning of the movement
+</p>
+<br>
+<li><p align=justify><b>Finishing position</b> - The second line sets where the camera will be at the end of the movement, with everything declared in the same order as in the first line - target object, range and then vertical tilt.</p>
+<br>
+<li><p align=justify><b>Timing controls</b> - The third line controls the timing of the movement. The first number tells the game how many seconds you want the camera movement to last, and the second tells it how many times per second you want the game to move the camera. The higher this number, the smoother the motion will be. Depending on how far and how fast the camera is moving, setting the number of camera moves per second to between 10.0 and 20.0 should produce a smooth motion without overloading the game.</p>
+<br>
+<li><p align=justify><b>Player selection</b> - The next thing you have to tell the function is which player you want to move the camera of. You can set up an <i>object</i> to contain this information, or you can simply put a function such as GetFirstPC(), GetPCSpeaker() or GetLastPlayerDied() directly in the GestaltCameraFace line of your script.</p>
+<br>
+<li><p align=justify><b>Options</b> - The last three numbers are integers which control various options in the function. The first option (iClockwise) sets whether the camera should move anti-clockwise (0), clockwise (1), or automatically go in whichever direction requires the least movement (2). This only needs to be set if you've told the camera to rotate around the player by changing the compass direction it's facing in. The second option (iFace) sets whether the PC (2), their camera (0) or both (1) will rotate. Again, it's only useful if your movement includes a change in compass direction. The final option (iParty) is for multiplayer modules only, and tells the function whether to move the camera of only the specified player (0), all the players in their party (1), or all the players on the server (2). All of these options default to 0.</p>
+</ol>
+<br><br>
+<p align=justify>
+So now we can see that the example script above causes the camera to turn from facing an object called "bob" to facing another object called "joe", with the camera 15.0 units from the player and 50.0 degrees from the vertical throughout the movement. It takes 2.5 seconds to do this, moving the camera 20.0 times per second to give a nice smooth motion. The last two lines show that the movement is only applied to the first player in the player list, that the camera turns anti-clockwise, and that both the player and the camera are turned simultaneously.
+<br><br>
+This code produces the second of the three movements that make up the scripted sequence you see by clicking on the GestaltCameraFace banner in the northwest corner of the test area in the "in_g_cutscene_camera" demo module.
+</p>
+<br><br>
+<center><b>Sample Scripts</b></center>
+<p align=justify>
+Here are a few more example scripts. Feel free to edit the camera test module to replace the existing g_facecam function with the code samples listed below to see what they do, or try experimenting with it yourself.</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oBob = GetObjectByTag("bob");
+
+    GestaltStartCutscene(oPC, "facecam");
+
+    GestaltCameraFace   (oBob, 15.0, 0.0,
+                        oBob, 10.0, 50.0,
+                        5.0, 20.0,
+                        oPC);
+
+    GestaltStopCutscene (5.0, oPC);
+}
+</pre>
+<p align=justify>
+Here we have set the starting and ending objects to be the same. This means that the camera will face "bob" throughout the motion, and only the tilt and zoom of the camera will be adjusted. Here we start 15.0 units directly above the player and gradually swing down until we're 5.0 units from the player 50.0 degrees from the vertical. The motion takes 5.0 seconds, and because there is no horizontal component to the movement we aren't moving the player, only the camera. We're leaving all three integer options at their default values in this example, so there's no need to list them when we call the function - the game will fill in the blanks for us.
+</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oBob = GetObjectByTag("bob");
+    object oJoe = GetObjectByTag("joe");
+
+    GestaltStartCutscene(oPC, "facecam");
+
+    GestaltCameraFace  (0.0,
+                        oBob, 15.0, 0.0,
+                        oJoe, 10.0, 50.0,
+                        2.5, 20.0,
+                        oPC);
+
+    GestaltStopCutscene (2.5, oPC);
+}
+</pre>
+<p align=justify>
+Here we combine the previous two examples to produce a more complex movement - turning from "bob" to "joe" while also moving the camera down from a wide overhead shot to a close-up nearer the ground. Again we've left all the options at their default values of 0, so only the camera will move - the player it belongs to will remain facing in the same direction throughout.
+</p>
+<br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetPCSpeaker();
+    object oBob = GetObjectByTag("bob");
+    object oJoe = GetObjectByTag("joe");
+
+    GestaltCameraFace  (0.0
+                        oBob, 0.0, 0.0,
+                        oJoe, 0.0, 0.0,
+                        2.5, 2.0,
+                        oPC,
+                        0, 2, 1);
+}
+</pre>
+<p align=justify>
+Here we have set the iFace option to 2 and iParty to 1. This means that every player in the selected PC's party will turn from Bob to Joe while their camera remains stationary. Because we're not moving the camera we don't need to worry about the range and tilt settings, although the numbers must still be included - I've set them all to 0.0.
+<br><br>
+Also notice that I've set the frame rate much lower than normal. This is because the player shuffles round by several degrees at a time when he turns, so as we're not moving the camera we don't need to worry about how smooth the motion is - it won't make any difference in this case. Indeed, if you set the frame rate to 0.4 (1.0 divided by the number of seconds the motion takes) the function will only create two frames - the player will simply face Bob and then turn to face Joe 2.5 seconds later.
+<br><br>
+Another change is how the player is selected - this time we've used GetLastPCSpeaker. A script of this kind could be placed in the Ended / Aborted slots of a conversation (to carry out the movement at the end of a conversation), or in the Action Taken slot of a specific line of dialogue within the conversation (to make the PC and his party turn to face a different character part way through the conversation, for example to make a three-way conversation look more realistic).
+<br><br>
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetFirstPC();
+    object oBob = GetObjectByTag("bob");
+    object oJoe = GetObjectByTag("joe");
+    object oLarry = GetObjectByTag("larry");
+
+    GestaltStartCutscene(oPC, "facecam");
+
+    GestaltCameraFace   (0.0,
+                        oBob, 15.0, 50.0,
+                        oBob, 15.0, 50.0,
+                        1.0, 1.0,
+                        oPC, 0, 1);
+
+    GestaltSpeak        (0.0, oBob, "Shish-ka-bob");
+
+    GestaltCameraFace   (2.0,
+                        oBob, 15.0, 50.0,
+                        oJoe, 15.0, 50.0,
+                        2.5, 20.0,
+                        oPC, 0, 1);
+
+    GestaltSpeak        (4.5, oJoe, "Shish-ka-joe");
+
+    GestaltCameraFace   (6.5,
+                        oJoe, 15.0, 50.0,
+                        oLarry, 15.0, 50.0,
+                        2.5, 20.0,
+                        oPC, 0, 1);
+
+    GestaltSpeak        (9.0, oLarry, "Shish-ka-larry");
+
+    GestaltStopCutscene (11.0, oPC);
+}
+</pre>
+<p align=justify>
+Our final example is more complex - this is the script which produces the camera movement you get when you click on the banner in the northwest corner of the starting area of the "in_g_cutscene_camera" demo module.
+<br><br>
+First it turns the player to face Bob. The movement starts immediately (because the delay, set by the first number, is 0.0) and turns the player and his camera (the last option is set to 1) to face the object oBob. Note that the movement lasts one second and has a framerate of just 1.0 frames per second. This means that the script causes the player and his camera to face Bob instantly and then doesn't do anything else.
+<br><br>
+The second GestaltCameraFace call is delayed by 2.0 seconds, and turns the player from facing Bob to facing Joe over a period of 2.5 seconds. Again, the last option is set to 1, so both the player and his camera turn.
+<br><br>
+The third GestaltCameraFace call starts 6.5 seconds after the script is triggered. That's 4.5 seconds after the second movement began, and 2.0 seconds after it ended. This time we turn the player from Joe to Larry, again taking 2.5 seconds to do it.
+<br><br>
+Note that although the camera movements being at 0.0, 2.0 and 6.5 seconds after the script is triggered, they are all given their own id codes as soon as the script begins. This means that if you abort the cutscene part way through the sequence, whichever of the three camera movements was running at the time would stop immediately, and any other camera movements which hadn't yet begun would also be cancelled.
+</p>
+</td>
+</tr>
+
+</table>
+
+<br><br><br>
+<center><a href="in_g_cutscene_index.htm">return to index</a></center>
+
+<br><br>
+<font size=-1>cutscene scripting system programmed by John Bye
+<br>feedback and suggestions can be sent to <a  href="mailto:john-bye@ntlworld.com">john-bye@ntlworld.com</a></font>
+
+</center>
+
+</body>
+</html>

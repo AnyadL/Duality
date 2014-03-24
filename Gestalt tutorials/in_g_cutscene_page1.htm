@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Cutscene Scripting For Neverwinter Nights</title>
+</head>
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
+
+<center>
+
+<br><br>
+<b><font size=+1>Cutscene Scripting For Neverwinter Nights</font></b>
+<br><br>
+
+<table cellspacing=16 width=640 border=0>
+
+<tr valign=top>
+
+<td align=left>
+<a name="1"></a>
+<center><b>What Is Cutscene Mode?</b></center>
+<p align=justify>
+Since v1.30, Neverwinter Nights has featured a new "cutscene mode". While in this state, players can't move their character or their view of the world, and they can't access the game menu to load, save or quit the game. In fact, the entire user interface (aside from the mouse pointer) is removed from the screen to make the cutscene more immersive. This means that the player's character is completely under your control and the player can't do anything to break your cinematic sequence.
+<br><br>
+<b>BEWARE</b> - the player can't exit the game whilst in cutscene mode (short of ALT-TABbing back to the desktop), so if you forget to stop the cutscene at the end of your script the player will be trapped! So be very careful that you match every cutscene start with a cutscene stop. While you are writing and testing a cutscene, it also pays to include an abort option in case something goes wrong. We'll cover that towards the end of this tutorial...
+</p>
+<br><br><br>
+<a name="2"></a>
+<center><b>Triggering Cutscenes</b></center>
+<p align=justify>
+Cutscenes can be triggered just like any other script in the game - from the OnEnter slot of an area or trigger, from the end of a conversation, when a door is opened or closed, by the death of a player or monster... The only events you should <i>never</i> use to trigger a cutscene are the OnClientEnter and OnClientLeave slots of the module, and the OnExit script of an area.
+<br><br>
+To keep your code tidy, it's usually best to keep cutscenes in a separate script. For example, if you want to trigger a cutscene when a player enters an area for the first time, you can put this code in the OnEnter script for that area -
+<pre>
+void main()
+{
+    object oPC = GetEnteringObject();
+
+    if (!GetIsPC(oPC))
+        { return; }
+
+    if (GetLocalInt(oPC,"iCutsceneViewed") > 0)
+        { return; }
+
+    SetLocalInt(oPC,"iCutsceneViewed",1);
+
+    SetLocalObject(GetModule(),"cutsceneviewer",oPC);
+    ExecuteScript("mycutscene",GetArea(oPC));
+}
+</pre>
+<p align=justify>
+What does this do? Well, it finds out what's entering the area and then checks that it is a player. If you forget to do this, the cutscene will be retriggered every time an NPC or monster spawns into the area! We then check and set a LocalInt on the player to make sure they haven't watched this cutscene before. There may be cases where you want a player to see the same cutscene every time they visit an area, but in this case let's assume we want a single-shot cutscene.
+<br><br>
+To ensure that the cutscene doesn't abort part way through because a character died or gets deleted, it's safest to run the cutscene script on the area the cutscene is taking place in. This is what we've done with the ExecuteScript line - we're running the script "mycutscene" on the area the player has just entered. And to make sure that we find the right player when we begin that script, we've set them as a LocalObject on the module.
+<br><br>
+If you're making a single player module the LocalObject trick isn't necessary - you can just use <i>GetFirstPC()</i> to find the (one and only) player in the module when the cutscene script fires.
+</p>
+<br><br><br>
+<a name="3"></a>
+<center><b>Starting Your Cutscene</b></center>
+<p align=justify>
+So what do you put in your "mycutscene" script? Well, first you need to give the script access to my cutscene scripting functions. This is done by adding the line <i>#include "in_g_cutscene"</i> to the top of your script, just above the <i>void main()</i>.
+<br><br>
+Next you find the player you want to show the cutscene to. As noted above, in a single player only module you can just use <i>object oPC = GetFirstPC();</i>. Otherwise, we find the player using the LocalObject we stored in the area OnEnter script, with <i>object oPC = GetLocalObject(GetModule(),"cutsceneviewer");</i>.
+<br><br>
+Once that's done you need to put the player into cutscene mode and get them ready for the cutscene. We do this using the <i>GestaltStartCutscene</i> function, which has a number of options, most of which we will ignore for now! The important parts are the first two variables - oPC (the player we want to prepare for the cutscene) and sName (the name we're going to give the cutscene). Note that sName should only include letters, numbers and underscores - no spaces! In this case we've already found oPC and we'll just call the cutscene "mycutscene", the same as the script name. Naming your cutscene after the script it appears in makes it easier to keep track of multiple cutscenes when you make a large module.
+<br><br>
+Remember that players can't escape from cutscene mode, so to be safe put in a <i>GestaltStopCutscene</i> to go with the start command. And here we find our first use of the fDelay variable. This sets how many seconds after the cutscene has been triggered the action should take place. As well as removing the need for lots of ugly <i>DelayCommand</i> lines throughout your script, this also allows us to cancel a delayed action, something that isn't normally possible in Neverwinter Nights. All the code to handle this is hidden away in the include file, so you don't need to worry about how this works - just take my word for it that it does. As we haven't got anything happening in the cutscene yet, let's keep it short and set fDelay to 5.0.
+<br><br>
+So what does all this code look like?
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+    GestaltStartCutscene(oPC,"mycutscene");
+    GestaltStopCutscene(5.0,oPC);
+}
+</pre>
+<p align=justify>
+Now, put your player start in the area that triggers this cutscene and see what happens. You should lose control of your character (and the camera) for five seconds, after which the HUD will return and you'll regain control. The chances are that something strange will have happened though - the camera has suddenly become lodged <i>inside</i> your character, either facing out horizontally from their waist (what I call "Groin Cam mode") or staring down at their feet from inside their chest. Once the camera is stuck in this position it's very hard to get loose again - you'll need to move your character forward a bit before you can zoom the camera out.
+<br><br>
+So what went wrong? Well, BioWare's SetCutsceneMode function automatically triggers the RestoreCameraFacing command when you set cutscene mode to FALSE to end the cutscene (which is one of the things that the GestaltStopCutscene function does). If it can't find a valid camera position to restore, it (rather unhelpfully) defaults to putting the camera inside the player's character!
+<br><br>
+The good news is that GestaltStartCutscene automatically Stores the camera facing for you at the beginning of the cutscene, so make sure every cutscene stop has a matching cutscene start. The bad news is that (as in this case) when the OnEnter script of an area is triggered the player doesn't have a valid camera position to store yet, as they're not fully inside the area!
+<br><br>
+There are two ways to solve this. One is to store the player's camera position <i>after</i> they have entered the area. To do this, set the bStoreCam option in GestaltStartCutscene to 2. The other way is to add the line <i>AssignCommand(oPC,StoreCameraFacing());</i> to the script that sends oPC to the area where the cutscene takes place, and then set bStoreCam to FALSE for that cutscene. This way the camera position will be stored <i>before</i> the player leaves the previous area and it can then be restored correctly at the end of the cutscene.
+<br><br>
+Let's use that first method here, as you'll want to keep the player start in the area the cutscene is taking place in while we test this cutscene. Your script should now look like this -
+<pre>
+#include "in_g_cutscene"
+
+void main()
+{
+    object oPC = GetLocalObject(GetModule(),"cutsceneviewer");
+    GestaltStartCutscene(oPC,"mycutscene",TRUE,TRUE,TRUE,TRUE,2);
+    GestaltStopCutscene(5.0,oPC);
+}
+</pre>
+<p align=justify>
+That number 2 on the GestaltStartCutscene line is the bStoreCam option. Note that we have to list all the other options before that one now, but we've left them at their default values of TRUE.
+<br><br>
+Save the module and try it again, and your cutscene should now work. It's not very exciting yet, but at least we have the player in cutscene mode and his camera position reverting to its correct position at the end of the scene.
+</p>
+<br><br>
+<center>
+&lt; <a href="in_g_cutscene_index.htm">prev</a> 
+&nbsp; <a href="in_g_cutscene_index.htm">index</a>
+&nbsp; <a href="in_g_cutscene_page2.htm">next</a> &gt;
+</center>
+</td>
+</tr>
+</table>
+
+<br><br>
+<br><br>
+<font size=-1>cutscene scripting system and tutorial by John Bye
+<br>feedback, suggestions and questions can be posted at my <a href="http://nwn.bioware.com/guilds_registry/viewguild.html?gid=13847">cutscene scripting guild</a></font>
+</center>
+
+</body>
+</html>
