@@ -37870,7 +37870,7 @@
                                 </Types>
                                 <Binding flavour="constant">
                                   <Type>float</Type>
-                                  <Value>2.0</Value>
+                                  <Value>1.0</Value>
                                 </Binding>
                               </KnowIt>
                             </Parameters>
@@ -38520,7 +38520,7 @@
                         </CodeBlocks>
                       </ScriptIt>
                       <ScriptIt>
-                        <Name>Animate &lt;Creature&gt; to &lt;Animation&gt; for &lt;Duration&gt; seconds</Name>
+                        <Name>Animate &lt;Creature&gt; to &lt;Animation&gt;</Name>
                         <Visible>true</Visible>
                         <Enabled>true</Enabled>
                         <Labels>
@@ -38529,11 +38529,54 @@
                         <Children/>
                         <CodeBlocks>
                           <CodeBlockReference library="DefaultNWNLibrary">
-                            <Name>Animate &lt;Creature&gt; to &lt;Animation&gt; for &lt;Duration&gt; seconds</Name>
+                            <Name>Animate &lt;Creature&gt; to &lt;Animation&gt;</Name>
                             <Visible>true</Visible>
                             <Enabled>true</Enabled>
                             <Labels/>
-                            <TargetId>156</TargetId>
+                            <TargetId>154</TargetId>
+                            <Parameters>
+                              <KnowIt>
+                                <Name>Creature</Name>
+                                <Visible>true</Visible>
+                                <Enabled>true</Enabled>
+                                <Labels/>
+                                <Types>
+                                  <Type>creature</Type>
+                                </Types>
+                                <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[11]/Children/CauseIt[2]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[2]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                              </KnowIt>
+                              <KnowIt>
+                                <Name>Animation</Name>
+                                <Visible>true</Visible>
+                                <Enabled>true</Enabled>
+                                <Labels/>
+                                <Types>
+                                  <Type>timed_creature_animation</Type>
+                                </Types>
+                                <Binding flavour="constant">
+                                  <Type>timed_creature_animation</Type>
+                                  <Value>ANIMATION_FIREFORGET_HEAD_TURN_LEFT</Value>
+                                </Binding>
+                              </KnowIt>
+                            </Parameters>
+                          </CodeBlockReference>
+                        </CodeBlocks>
+                      </ScriptIt>
+                      <ScriptIt>
+                        <Name>Animate &lt;Creature&gt; to &lt;Animation&gt;</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels>
+                          <Label>TODO</Label>
+                        </Labels>
+                        <Children/>
+                        <CodeBlocks>
+                          <CodeBlockReference library="DefaultNWNLibrary">
+                            <Name>Animate &lt;Creature&gt; to &lt;Animation&gt;</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <TargetId>154</TargetId>
                             <Parameters>
                               <KnowIt>
                                 <Name>Creature</Name>
@@ -38556,19 +38599,6 @@
                                 <Binding flavour="constant">
                                   <Type>timed_creature_animation</Type>
                                   <Value>ANIMATION_LOOPING_TALK_NORMAL</Value>
-                                </Binding>
-                              </KnowIt>
-                              <KnowIt>
-                                <Name>Duration</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>float</Type>
-                                </Types>
-                                <Binding flavour="constant">
-                                  <Type>float</Type>
-                                  <Value>13.0</Value>
                                 </Binding>
                               </KnowIt>
                             </Parameters>
@@ -38795,7 +38825,7 @@
                     <Types>
                       <Type>trigger</Type>
                     </Types>
-                    <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[11]/Children/CauseIt[2]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[5]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                    <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint[11]/Children/CauseIt[2]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt[6]/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
                   </KnowIt>
                 </Parameters>
               </CodeBlockReference>
