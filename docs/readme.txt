@@ -73,6 +73,30 @@ INSTRUCTIONS
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Start the game by loading the "Duality" module and selecting the "Mia" pre-made
-character. The best way to play the game is using the W A S D keys to move in
-areas where the camera is locked. In areas where the camera is unlocked, use 
-the mouse to "click-to-move". There are no other hotkeys required to play.
+character. 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+CONTROLS
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MOVEMENT:
+
+W - Move forward
+A - Turn left
+S - Move backward
+D - Turn right
+
+OR 'Click-to-Move' using the mouse
+
+CAMERA (when locked):
+
+Left Arrow - Rotate camera left
+Right Arrow - Rotate camera right
+
+CAMERA (when unlocked):
+
+Up Arrow - Zoom camera in
+Down Arrow - Zoom camera out
+Page Up - Tilt camera up
+Page Down - Tilt camera down
+
