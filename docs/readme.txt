@@ -14,20 +14,74 @@ Software Developer:			Lexie Bartlett
 Software Developer:			Dayna Lacoursiere
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+INSTALLATION
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+To install, extract "Duality.zip" to the main Neverwinter Nights directory. If
+this does not work, see the last section below for where each file in the 
+Duality folder should be placed within the Neverwinter Nights directory.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+INSTRUCTIONS
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Start the game by loading the "Duality" module and selecting the "Mia" pre-made
+character. Open the Inventory by pressing "I" and the Journal by pressing "J". 
+The Journal contains information about Mia's story as the game progresses, and
+may prove useful to help solve the puzzles in each of the rooms. 
+
+WEARING A HEADSET IS A PREREQUISITE TO ENJOYING THE GAME.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+CONTROLS
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MOVEMENT:
+
+W - Move forward
+A - Turn left
+S - Move backward
+D - Turn right
+
+or 'Click-to-Move' using the mouse
+
+CAMERA (when locked):
+
+Left Arrow - Rotate camera left
+Right Arrow - Rotate camera right
+
+CAMERA (when unlocked):
+
+Left Arrow - Rotate camera left
+Right Arrow - Rotate camera right
+Up Arrow - Zoom camera in
+Down Arrow - Zoom camera out
+Page Up - Tilt camera up
+Page Down - Tilt camera down
+
+INTERFACE:
+
+I - Open the inventory
+J - Open the journal
+TAB - Highlight objects of interest in the game world
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 FILE				INSTALL LOCATION
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
-Duality.mod			modules
-DualityHub2.mod			modules
-DualityHub3.mod			modules
-DualityHub4.mod			modules
-DualityMirrorRoom.mod		modules
-DualityMusicRoom.mod		modules
-DualityFinalRoom.mod		modules
-character/mia.bic		localvault
+modules/Duality.mod		modules
+modules/DualityHub2.mod		modules
+modules/DualityHub3.mod		modules
+modules/DualityHub4.mod		modules
+modules/DualityMirrorRoom.mod	modules
+modules/DualityMusicRoom.mod	modules
+modules/DualityFinalRoom.mod	modules
+localvault/mia.bic		localvault
 music/mus_bat_my_heels.bmu	music
 music/mus_we.bmu		music
 music/mus_we_the_dark.bmu	music
+music/mus_myblvd_piano.bmu	music
+music/mus_my_beloved.bmu	music
 cutscenes/FIN_ED.bik		movies
 cutscenes/FIN_OP.bik		movies
 cutscenes/MUS_EDConverted.bik	movies
@@ -67,36 +121,9 @@ hak/dualityfinalmus.hak		hak
 hak/hub_mus.hak			hak
 hak/mirrorpuzzle_mus.hak	hak
 hak/musicpuzzle_mus.hak		hak
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-INSTRUCTIONS
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Start the game by loading the "Duality" module and selecting the "Mia" pre-made
-character. 
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-CONTROLS
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-MOVEMENT:
-
-W - Move forward
-A - Turn left
-S - Move backward
-D - Turn right
-
-OR 'Click-to-Move' using the mouse
-
-CAMERA (when locked):
-
-Left Arrow - Rotate camera left
-Right Arrow - Rotate camera right
-
-CAMERA (when unlocked):
-
-Up Arrow - Zoom camera in
-Down Arrow - Zoom camera out
-Page Up - Tilt camera up
-Page Down - Tilt camera down
-
+hak/hub_easel.hak 		hak
+hak/hub_piano.hak 		hak
+hak/hubs_sfx.hak 		hak
+erf/Armor.erf			erf
+erf/in_g_cutscene.erf		erf
+erf/intontimento.erf		erf
