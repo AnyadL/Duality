@@ -3,6 +3,8 @@ DUALITY
 
 Duality is a mod for Neverwinter Nights created by Leonid Productions for the Winter 2014 section of CMPUT 250 at the University of Alberta.
 
+*If installing from GitHub, the "aa_1.1tilesetpak.HAK" hak pack is an additional required download, which can be obtained [here](http://www.ualberta.ca/~atcheung/downloads/CMPUT_250_Duality/aa_1.1tilesetpak.HAK).
+
 LICENSE
 =======
 
