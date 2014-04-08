@@ -1,5 +1,5 @@
 <Story>
-  <Title>Hub1</Title>
+  <Title>*Hub1</Title>
   <Author>Leonid Productions</Author>
   <Version>2.7</Version>
   <Translator>Neverwinter Nights</Translator>
@@ -4088,7 +4088,7 @@
                                             </Types>
                                             <Binding flavour="constant">
                                               <Type>string</Type>
-                                              <Value>music_light2</Value>
+                                              <Value>music_light1</Value>
                                             </Binding>
                                           </KnowIt>
                                         </Parameters>

@@ -1794,7 +1794,7 @@
                         </CodeBlocks>
                       </ScriptIt>
                       <ScriptIt>
-                        <Name>Execute the script &quot;&lt;Script&gt;&quot; on &lt;Target&gt;</Name>
+                        <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
                         <Visible>true</Visible>
                         <Enabled>true</Enabled>
                         <Labels>
@@ -1803,11 +1803,11 @@
                         <Children/>
                         <CodeBlocks>
                           <CodeBlockReference library="DefaultNWNLibrary">
-                            <Name>Execute the script &quot;&lt;Script&gt;&quot; on &lt;Target&gt;</Name>
+                            <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
                             <Visible>true</Visible>
                             <Enabled>true</Enabled>
                             <Labels/>
-                            <TargetId>417</TargetId>
+                            <TargetId>418</TargetId>
                             <Parameters>
                               <KnowIt>
                                 <Name>Script</Name>
@@ -1819,22 +1819,8 @@
                                 </Types>
                                 <Binding flavour="constant">
                                   <Type>string</Type>
-                                  <Value>&quot;mirror_vfx&quot;</Value>
+                                  <Value>final_light1</Value>
                                 </Binding>
-                              </KnowIt>
-                              <KnowIt>
-                                <Name>Target</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>creature</Type>
-                                  <Type>placeable</Type>
-                                  <Type>door</Type>
-                                  <Type>item</Type>
-                                  <Type>trigger</Type>
-                                </Types>
-                                <Binding flavour="resource">bookcase016.UTP</Binding>
                               </KnowIt>
                             </Parameters>
                           </CodeBlockReference>
@@ -1972,6 +1958,39 @@
                                   <Type>sound</Type>
                                 </Types>
                                 <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt[7]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                              </KnowIt>
+                            </Parameters>
+                          </CodeBlockReference>
+                        </CodeBlocks>
+                      </ScriptIt>
+                      <ScriptIt>
+                        <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels>
+                          <Label>NOW</Label>
+                        </Labels>
+                        <Children/>
+                        <CodeBlocks>
+                          <CodeBlockReference library="DefaultNWNLibrary">
+                            <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <TargetId>418</TargetId>
+                            <Parameters>
+                              <KnowIt>
+                                <Name>Script</Name>
+                                <Visible>true</Visible>
+                                <Enabled>true</Enabled>
+                                <Labels/>
+                                <Types>
+                                  <Type>string</Type>
+                                </Types>
+                                <Binding flavour="constant">
+                                  <Type>string</Type>
+                                  <Value>final_light2</Value>
+                                </Binding>
                               </KnowIt>
                             </Parameters>
                           </CodeBlockReference>
@@ -2115,7 +2134,7 @@
                         </CodeBlocks>
                       </ScriptIt>
                       <ScriptIt>
-                        <Name>Execute the script &quot;&lt;Script&gt;&quot; on &lt;Target&gt;</Name>
+                        <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
                         <Visible>true</Visible>
                         <Enabled>true</Enabled>
                         <Labels>
@@ -2124,11 +2143,11 @@
                         <Children/>
                         <CodeBlocks>
                           <CodeBlockReference library="DefaultNWNLibrary">
-                            <Name>Execute the script &quot;&lt;Script&gt;&quot; on &lt;Target&gt;</Name>
+                            <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
                             <Visible>true</Visible>
                             <Enabled>true</Enabled>
                             <Labels/>
-                            <TargetId>417</TargetId>
+                            <TargetId>418</TargetId>
                             <Parameters>
                               <KnowIt>
                                 <Name>Script</Name>
@@ -2140,22 +2159,8 @@
                                 </Types>
                                 <Binding flavour="constant">
                                   <Type>string</Type>
-                                  <Value>&quot;mirror_vfx&quot;</Value>
+                                  <Value>music_light1</Value>
                                 </Binding>
-                              </KnowIt>
-                              <KnowIt>
-                                <Name>Target</Name>
-                                <Visible>true</Visible>
-                                <Enabled>true</Enabled>
-                                <Labels/>
-                                <Types>
-                                  <Type>creature</Type>
-                                  <Type>placeable</Type>
-                                  <Type>door</Type>
-                                  <Type>item</Type>
-                                  <Type>trigger</Type>
-                                </Types>
-                                <Binding flavour="resource">bookcase017.UTP</Binding>
                               </KnowIt>
                             </Parameters>
                           </CodeBlockReference>
@@ -2293,6 +2298,39 @@
                                   <Type>sound</Type>
                                 </Types>
                                 <Binding reference="/Story/StartStoryPoint/Successors/StoryPoint/Children/CauseIt[9]/Children/AskIt/Children/StoryComponentContainer/Children/ScriptIt/CodeBlocks/CodeBlockReference/Parameters/KnowIt/Binding"/>
+                              </KnowIt>
+                            </Parameters>
+                          </CodeBlockReference>
+                        </CodeBlocks>
+                      </ScriptIt>
+                      <ScriptIt>
+                        <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
+                        <Visible>true</Visible>
+                        <Enabled>true</Enabled>
+                        <Labels>
+                          <Label>NOW</Label>
+                        </Labels>
+                        <Children/>
+                        <CodeBlocks>
+                          <CodeBlockReference library="DefaultNWNLibrary">
+                            <Name>Execute the script &quot;&lt;Script&gt;&quot; on subject</Name>
+                            <Visible>true</Visible>
+                            <Enabled>true</Enabled>
+                            <Labels/>
+                            <TargetId>418</TargetId>
+                            <Parameters>
+                              <KnowIt>
+                                <Name>Script</Name>
+                                <Visible>true</Visible>
+                                <Enabled>true</Enabled>
+                                <Labels/>
+                                <Types>
+                                  <Type>string</Type>
+                                </Types>
+                                <Binding flavour="constant">
+                                  <Type>string</Type>
+                                  <Value>music_light2</Value>
+                                </Binding>
                               </KnowIt>
                             </Parameters>
                           </CodeBlockReference>
