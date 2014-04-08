@@ -9,6 +9,7 @@
 #include "global"
 
 const float delay = 0.02;
+const float canvas_z = -0.9;
 
 void init();
 void create_pixel(location l, string tag, int index);

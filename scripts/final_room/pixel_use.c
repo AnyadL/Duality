@@ -29,6 +29,7 @@ void destroy()
     vector v;
     location l;
 
+    SetLocked(GetObjectByTag("journal_hint_trigger"), FALSE);
     user = GetLastUsedBy();
 
     if (user != pc)

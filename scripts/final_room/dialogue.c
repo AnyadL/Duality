@@ -15,7 +15,14 @@ const string SHADOW_TAUNT_6 = "We will haunt you forever.";
 const string MIA_WRONG_1 = "That wasn't the real one.";
 const string MIA_WRONG_2 = "I've got to look and listen more carefully.";
 const string MIA_WRONG_3 = "I can't afford to make that mistake too many times.";
-const string MIA_WRONG_4 = "That's wrong.";
+const string MIA_WRONG_4 = "That's the wrong shadow.";
+const string MIA_WRONG_5 = "The real shadow has to be different from the rest...somehow.";
+
+const string SHADOW_RIGHT_1 = "That was just a lucky guess.";
+const string MIA_RIGHT_2 = "I know you're the real one.";
+const string SHADOW_RIGHT_2 = "Oh really now?";
+const string SHADOW_RIGHT_3 = "It seems you can tell me apart. But do you really recognize me?";
+const string MIA_RIGHT_4 = "I think I know who you are... One more time and I'll be sure.";
 
 const string SHADOW_ATTACK_1 = "Run, run as fast as you can.";
 const string SHADOW_ATTACK_2 = "Here, you are subject to ME.";
@@ -34,3 +41,6 @@ const string MIA_FOUND_1 = "That's the one!";
 const string MIA_FOUND_2 = "I've found it!";
 
 const string MIA_GIVE_UP = "I can't do this. I give up!";
+
+const string EXIT_1 = "You have unfinished business here.";
+const string EXIT_2 = "I'm not letting you leave.";

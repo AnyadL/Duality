@@ -8,33 +8,24 @@
 #include "global"
 #include "dialogue"
 
+float delay = 0.015;
+
+void spawn(int i, int mia_spawn);
 void spawn_mia_shadow(location spawn_point);
 void spawn_shadow(location spawn_point);
 
 void main()
 {
-    location spawn_point;
+    int mia_spawn;
     int i;
-    int mia_spawn = Random(NUM_MIRRORS);
 
     if (GetObjectByTag(PIXEL_TAG) != OBJECT_INVALID &&
         GetObjectByTag(MIA_SHADOW_TAG) == OBJECT_INVALID &&
         GetObjectByTag(SHADOW_TAG) == OBJECT_INVALID)
     {
+        mia_spawn = Random(NUM_MIRRORS);
         for (; i < NUM_MIRRORS; i++)
-        {
-            spawn_point = GetLocation(GetObjectByTag(MIRROR_TAG
-                + IntToString(i)));
-
-            if (i == mia_spawn)
-            {
-                spawn_mia_shadow(spawn_point);
-            }
-            else
-            {
-                spawn_shadow(spawn_point);
-            }
-        }
+            DelayCommand(i * delay, spawn(i, mia_spawn));
     }
     else if (GetObjectByTag(PIXEL_TAG) == OBJECT_INVALID)
     {
@@ -42,6 +33,16 @@ void main()
         ApplyEffectToObject(DURATION_TYPE_TEMPORARY, EffectCutsceneImmobilize(),
             pc, 6.0);
     }
+}
+
+void spawn(int i, int mia_spawn)
+{
+    location spawn_point = GetLocation(GetObjectByTag(MIRROR_TAG + IntToString(i)));
+
+    if (i == mia_spawn)
+        spawn_mia_shadow(spawn_point);
+    else
+        spawn_shadow(spawn_point);
 }
 
 void spawn_shadow(location spawn_point)

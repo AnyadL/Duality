@@ -11,6 +11,7 @@
 const int DAMAGE = 1;
 effect death_visual = EffectVisualEffect(VFX_IMP_DEATH_WARD);
 float delay = 1.00;
+float STUN_DURATION = 1.5;
 
 void StopShadow();
 void DestroyShadow();
@@ -44,6 +45,8 @@ void AttackMia()
 
     damage_visual = EffectVisualEffect(VFX_IMP_DOMINATE_S);
     damage = EffectDamage(DAMAGE);
+    ApplyEffectToObject(DURATION_TYPE_TEMPORARY, EffectCutsceneImmobilize(), pc, STUN_DURATION);
+    AssignCommand(pc, PlayAnimation(ANIMATION_LOOPING_SPASM, 1.0, STUN_DURATION));
     ApplyEffectToObject(DURATION_TYPE_INSTANT, damage_visual, pc);
     ApplyEffectToObject(DURATION_TYPE_INSTANT, damage, pc);
 }
@@ -123,6 +126,8 @@ string GetWrong(int n)
             return MIA_WRONG_3;
         case 4:
             return MIA_WRONG_4;
+        case 5:
+            return MIA_WRONG_5;
     }
     return "";
 }
