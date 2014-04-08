@@ -156,7 +156,7 @@
                                 </Types>
                                 <Binding flavour="constant">
                                   <Type>float</Type>
-                                  <Value>10.0</Value>
+                                  <Value>20.0</Value>
                                 </Binding>
                               </KnowIt>
                             </Parameters>
