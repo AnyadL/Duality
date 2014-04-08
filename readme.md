@@ -10,11 +10,15 @@ Artist 				| Joanna Lok
 Software Developer 		| Lexie Bartlett
 Software Developer 		| Dayna Lacoursiere
 
+### Media
+[Trailer](https://www.youtube.com/watch?v=A9YRAxIX4l0)
+[Soundtrack](https://soundcloud.com/leonid-pro/sets/duality-official-soundtrack)
+
 # Installation
 
 To install, extract the archive to the main Neverwinter Nights directory. If this does not work, see the last section below for where each file in the Duality folder should be placed within the Neverwinter Nights directory.
 
-> If installing from GitHub, the "aa_1.1tilesetpak.HAK" hak pack is an additional required download, which can be obtained [here](http://www.ualberta.ca/~atcheung/downloads/CMPUT_250_Duality/aa_1.1tilesetpak.HAK).
+> If installing from GitHub, the "aa_1.1tilesetpak.HAK", "DualityFinal.hak" and "DualityHub1.hak" hak packs are an additional required download which can be obtained [here](http://www.ualberta.ca/~atcheung/downloads/CMPUT_250_Duality/).
 
 # Instructions
 
