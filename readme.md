@@ -11,8 +11,8 @@ Software Developer 		| Lexie Bartlett
 Software Developer 		| Dayna Lacoursiere
 
 ### Media
-[Trailer](https://www.youtube.com/watch?v=A9YRAxIX4l0)  
-[Soundtrack](https://soundcloud.com/leonid-pro/sets/duality-official-soundtrack)
+YouTube: [Trailer](https://www.youtube.com/watch?v=A9YRAxIX4l0)  
+SoundCloud: [Soundtrack](https://soundcloud.com/leonid-pro/sets/duality-official-soundtrack)
 
 # Installation
 
