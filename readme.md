@@ -18,7 +18,7 @@ SoundCloud: [Soundtrack](https://soundcloud.com/leonid-pro/sets/duality-official
 
 To install, copy all folders to the main Neverwinter Nights directory. See the last section below for where each file in the Duality folder should be placed within the Neverwinter Nights directory.
 
-> If installing from GitHub, the "aa_1.1tilesetpak.HAK", "DualityFinal.hak" and "DualityHub1.hak" hak packs are an additional required download which can be obtained [here](http://www.ualberta.ca/~atcheung/downloads/CMPUT_250_Duality/).
+> If installing from GitHub, the "aa_1.1tilesetpak.HAK", "DualityFinal.hak", "DualityMusic.hak" and "DualityHub1.hak" hak packs are an additional required download which can be obtained [here](http://www.ualberta.ca/~atcheung/downloads/CMPUT_250_Duality/).
 
 # Instructions
 
